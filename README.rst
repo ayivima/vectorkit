@@ -54,7 +54,7 @@ Create a vector from given numbers
 
     >>> w = Vector(1, 2, 3)
     >>> w
-    Vector(1 2 3)
+    Vector(1.0 2.0 3.0)
 
 
 Get vector components
@@ -153,14 +153,14 @@ First Option
     >>> w = Vector(1, 2, 3)
     >>> x = Vector(3, 2, 1)
     >>> w + x
-    Vector(4 4 4)
+    Vector(4.0 4.0 4.0)
    
 ::
 
     >>> w = Vector(1, 2, 3, 4, 5)
     >>> x = Vector(3, 2, 1)
     >>> w + x
-    Vector(4 4 4 4 5)
+    Vector(4.0 4.0 4.0 4.0 5.0)
 
 
 Second Option
@@ -171,7 +171,7 @@ Second Option
     >>> x = Vector(3, 2, 1)
     >>> vector_sum = w.add(x)
     >>> vector_sum
-    Vector(4 4 4)
+    Vector(4.0 4.0 4.0)
     
 
 Vector Subtraction
@@ -184,7 +184,7 @@ First Option
     >>> a = Vector(2, 2, 2)
     >>> b = Vector(1, 1, 1)
     >>> a - b
-    Vector(1 1 1)
+    Vector(1.0 1.0 1.0)
 
 Second Option
 
@@ -194,7 +194,7 @@ Second Option
     >>> b = Vector(1, 1, 1)
     >>> vector_sub = a.subtract(b)
     >>> vector_sub
-    Vector(1 1 1)
+    Vector(1.0 1.0 1.0)
  
 ::
 
@@ -202,11 +202,13 @@ Second Option
     >>> b = Vector(1, 1, 1)
     >>> vector_sub = a.subtract(b)
     >>> vector_sub
-    Vector(1 1 1 2 2)
+    Vector(1.0 1.0 1.0 2.0 2.0)
     
 
-Create a new Vector using a slice from another Vector
+Get an element or elements from a Vector
 -----------------------------------------------------
+Unlike .subvec(), standard indexing/slicing returns an int or float, if one element is requested or, a standard list of several items requested.
+
 
 :Using standard slicing notation:
 
@@ -214,8 +216,11 @@ Create a new Vector using a slice from another Vector
 
     >>> x = Vector(1, 2, 3, 4)
     >>> x[1:3]
-    Vector(2 3)
+    [2 3]
     
+
+Create a new Vector using a slice from another Vector
+-----------------------------------------------------
 
 :Using subvec():
 
@@ -224,7 +229,7 @@ Create a new Vector using a slice from another Vector
     >>> x = Vector(1, 2, 3, 4)
     >>> new_vector = x.subvec(1, 3)
     >>> new_vector
-    Vector(2 3)
+    Vector(2.0 3.0)
 
 
 Add new components to Vectors
@@ -239,7 +244,7 @@ Append one value
     >>> w = Vector(1, 2, 3)
     >>> w.append(4)
     >>> w
-    Vector(1 2 3 4)
+    Vector(1.0 2.0 3.0 4.0)
 
 
 Append several values bundled in a tuple or list
@@ -249,7 +254,7 @@ Append several values bundled in a tuple or list
     >>> w = Vector(1, 2, 3)
     >>> w.append([4, 5, 6])
     >>> w
-    Vector(1 2 3 4 5 6)
+    Vector(1.0 2.0 3.0 4.0 5.0 6.0)
 
 :Using insert(index, value):
 
@@ -258,7 +263,7 @@ Append several values bundled in a tuple or list
     >>> w = Vector(1, 2, 3)
     >>> w.insert(2, 67)
     >>> w
-    Vector(1 2 67 3)
+    Vector(1.0 2.0 67.0 3.0)
 
 
 Change a component's value
@@ -268,11 +273,11 @@ Change a component's value
 
     >>> w = Vector(1, 2, 3)
     >>> w
-    Vector(1 2 3)
+    Vector(1.0 2.0 3.0)
     >>>
     >>> w[2] = 78
     >>> w
-    Vector(1 2 78)
+    Vector(1.0 2.0 78.0)
 
 
 Delete a component
@@ -282,7 +287,7 @@ Delete a component
 
     >>> w = Vector(1, 2, 3)
     >>> w.pop(1)
-    Vector(1 3)
+    Vector(1.0 3.0)
     
 
 
@@ -297,10 +302,10 @@ Extend a Vector by adding component a specified number of times
     >>> w = Vector(1, 2, 3)
     >>> extended_vector = w.extended(6, 1)
     >>> extended_vector
-    Vector(1 2 3 1 1 1)
+    Vector(1.0 2.0 3.0 1.0 1.0 1.0)
     >>>
     >>> w
-    Vector(1 2 3)   
+    Vector(1.0 2.0 3.0)   
     
     
 :Using extended(desired_length):
@@ -311,7 +316,7 @@ Calling ``extended()`` without a ``extension_component`` uses 0 as fill value.
     >>> w = Vector(1, 2, 3)
     >>> extended_vector = w.extended(6)
     >>> extended_vector
-    Vector(1 2 3 0 0 0)
+    Vector(1.0 2.0 3.0 0.0 0.0 0.0)
 
 
 :Using extend(desired_length, extension_component) or extend(desired_length):
@@ -325,7 +330,7 @@ Calling ``extended()`` without a ``extension_component`` uses 0 as fill value.
     None
     >>>
     >>> w
-    Vector(1 2 3 1 1 1)
+    Vector(1.0 2.0 3.0 1.0 1.0 1.0)
     
 Change a Vector's direction
 ---------------------------
@@ -334,23 +339,23 @@ Change a Vector's direction
 
     >>> w = Vector(1, 2, 3)
     >>> w
-    Vector(1 2 3)
+    Vector(1.0 2.0 3.0)
     >>>
     >>> w.reverse()
     None
     >>> w
-    Vector(-1 -2 -3)
+    Vector(-1.0 -2.0 -3.0)
        
 ::
 
     >>> w = Vector(1, -2, 3)
     >>> w
-    Vector(1 -2 3)
+    Vector(1.0 -2.0 3.0)
     >>>
     >>> w.reverse()
     None
     >>> w
-    Vector(-1 2 -3)
+    Vector(-1.0 2.0 -3.0)
 
 
 Create a Vector that has an opposite direction to the current Vector
@@ -360,11 +365,11 @@ Create a Vector that has an opposite direction to the current Vector
 
     >>> w = Vector(1, 2, 3)
     >>> w
-    Vector(1 2 3)
+    Vector(1.0 2.0 3.0)
     >>>
     >>> new_vector = w.reversed()
     >>> new_vector
-    Vector(-1 -2 -3)
+    Vector(-1.0 -2.0 -3.0)
 
 
 
@@ -377,7 +382,7 @@ Scalar Multiplication
 
     >>> x = Vector(3, 2, 1)
     >>> w.smul(3)
-    Vector(9 6 3)
+    Vector(9.0 6.0 3.0)
 
 
 
@@ -402,7 +407,7 @@ Cross Product of two vectors within 3-D space
     >>> w = Vector(1, 2, 3)
     >>> x = Vector(3, 2, 1)
     >>> w.crossmul(x)
-    Vector(-4 8 -4)
+    Vector(-4.0 8.0 -4.0)
 
 
 Distance between two vectors
@@ -423,7 +428,7 @@ Create a homogenous Vector of a specified dimension
 
     >>> w = isovector(2, 4)
     >>> w
-    Vector(2 2 2 2)
+    Vector(2.0 2.0 2.0 2.0)
 
 
 Transforms a valid sequence or single numerical value(int or float) into a Vector
@@ -433,10 +438,10 @@ Transforms a valid sequence or single numerical value(int or float) into a Vecto
 
     >>> w = Vector([2, 4])
     >>> w
-    Vector(2 4)
+    Vector(2.0 4.0)
     >>>
     >>> Vector((1, 9))
-    Vector(1, 9)
+    Vector(1.0 9.0)
     
 
 VERSION HISTORY
