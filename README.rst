@@ -216,7 +216,7 @@ Unlike .subvec(), standard indexing/slicing returns an int or float, if one elem
 
     >>> x = Vector(1, 2, 3, 4)
     >>> x[1:3]
-    [2 3]
+    [2, 3]
     
 
 Create a new Vector using a slice from another Vector
