@@ -1,5 +1,16 @@
-VECTOR KIT 0.1.3
-================
+VECTOR KIT
+==========
+
+<img src="https://img.shields.io/pypi/v/vectorkit.svg?style=flat-square"/>
+  
+<img src="https://img.shields.io/pypi/implementation/vectorkit.svg?style=flat-square"/>
+	   
+<img src="https://img.shields.io/pypi/pyversions/vectorkit.svg?style=flat-square"/>
+  
+<img src="https://img.shields.io/github/languages/code-size/ayivima/vectorkit.svg?style=flat-square"/>
+  
+<img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square"/>
+
 
 Vectorkit, inspired by 60DAYSOFUDACITY, is part of a series of implementations of mathematical concepts of AI from the scratch. 
 Vectorkit seeks to make vector arithmetic simple and convenient for everyone. It may serve as a utility in a 
