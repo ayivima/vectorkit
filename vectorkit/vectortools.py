@@ -42,7 +42,6 @@ class Vector():
 				)
 
 		self.components = list(args)
-		self.mincomp = mincomp
 		self.dimensions = self.__dimensions__()
 
 		if self.dimensions == 1:
