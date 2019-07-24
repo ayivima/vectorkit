@@ -42,6 +42,7 @@ class Vector():
 				)
 
 		self.components = list(args)
+		self.mincomp = mincomp
 		self.dimensions = self.__dimensions__()
 
 		if self.dimensions == 1:
@@ -343,7 +344,7 @@ class Vector():
 			self.dimensions = self.__dimensions__()
 		else:
 			raise ValueError(
-				"index argument must be a positive integer"
+				"Index argument must be a positive integer"
 			)
 
 	def reverse(self):
@@ -361,6 +362,27 @@ class Vector():
 		r_vec = self.smul(-1)		
 		return r_vec
 
+	def sdiv(self, scalar):
+		"""Returns a Vector, which is the result of a scalar division.
+
+		Parameters
+		----------
+		scalar : a number of int or float type to divide the vector.
+		
+		"""
+
+		if type(scalar) in (int, float):
+			return Vector(
+				[
+					component/scalar for component in self.components
+				]
+			)
+
+		else:
+			raise ValueError(
+				"Second operand must be a scalar"
+			)
+
 	def smul(self, scalar):
 		"""Returns the product of a scalar multiplication.
 
@@ -368,18 +390,15 @@ class Vector():
 		----------
 		scalar : a number of int or float type to multiply vector.
 
-		verbose : if true, a return string gives details on the calculation.
-
 		"""
 
 		if type(scalar) in (int, float):
-			self_to_list = list(self.components)
-			self_to_list = [
-				scalar * num for num in self_to_list
-			]
+			return Vector(
+				[
+					component * scalar for component in self.components
+				]
+			)
 
-			result = Vector(self_to_list)
-			return result
 		else:
 			raise ValueError(
 				"Second operand must be a scalar"
