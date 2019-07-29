@@ -2,17 +2,18 @@
 """Tests for Vectorkit."""
 
 from math import sqrt
+import sys
 import unittest
 
-from vectorkit import Vector, isovector
+from vectorkit import Vector, isovector, randvec
 
 
 __name__ = "VectorkitTester"
-__version__ = "0.1.3"
-__author__ = "Victor Mawusi Ayi"
+__version__ = "0.1.4"
+__author__ = "Victor Mawusi Ayi <ayivima@hotmail.com>"
 
 
-# Test Vectors
+# Some Test Vectors
 x = Vector(1,2)
 y = Vector(2,1)
 z = Vector(1,2,3)
@@ -48,17 +49,21 @@ class VectorToolsTester(unittest.TestCase):
 		a = Vector(1,2,3)
 		b = Vector(1,2,3)
 
+		# chain addition and subtraction
 		chain1 = a + b - a + b
+
 		chain1_expected_result = Vector(2,4,6)
 		self.assertEqual(chain1_expected_result, chain1)
 
 		# chain scalar multiplication and dot product
 		chain2 = a * b * 5 * a
+		
 		chain2_expected_result = Vector(70,140,210)
 		self.assertEqual(chain2_expected_result, chain2)
 
 		# chain dot product, scalar multiplication, reversal
 		chain3 = (a * b * 5 * a).smul(0.5).reversed()
+
 		chain3_expected_result = Vector(-35,-70,-105)
 		self.assertEqual(chain3_expected_result, chain3)
 
@@ -66,7 +71,9 @@ class VectorToolsTester(unittest.TestCase):
 		# vector subtraction, scalar multiplication
 		a = Vector(3, -3, 1)
 		b = Vector(4, 9, 2)
+		
 		chain4 = a.crossmul(b).smul(-1).subtract(b).add(a)
+
 		chain4_expected_result = Vector(14,-10,-40)
 		self.assertEqual(chain4_expected_result, chain4)
 
@@ -83,7 +90,8 @@ class VectorToolsTester(unittest.TestCase):
 
 	def test_describe(self):
 		expected_x_description = (
-			"A 2-dimensional vector with components: 1.0, 2.0"
+			"A 2-dimensional vector with components: 1.0, 2.0. "
+			"[ Memory Size 190 bytes ]"
 		)
 		actual_x_description = x.describe()
 
@@ -131,12 +139,14 @@ class VectorToolsTester(unittest.TestCase):
 
 		# Test for non in-place extension using .extended() :)
 		b = Vector(1,3)
+		
 		c = b.extended(4) # using default extension component
 		d = b.extended(4, 10)
-		expected_c = Vector(1,3,0,0)
-		expected_d = Vector(1,3,10,10)
 
+		expected_c = Vector(1,3,0,0)
 		self.assertEqual(expected_c, c)
+
+		expected_d = Vector(1,3,10,10)
 		self.assertEqual(expected_d, d)
 
 		# Test that vector 'b' is preserved
@@ -187,6 +197,13 @@ class VectorToolsTester(unittest.TestCase):
 
 		self.assertEqual(expected_a, a)
 
+	def test_mean(self):
+		X = Vector(2, 7, 3)
+
+		# Test mean
+		expected_mean = 4
+		self.assertEqual(expected_mean, X.mean())
+
 	def test_multiplication_with_operator(self):
 		# Using (*) between vectors produces dot product
 		# Testing dressing in the background
@@ -197,18 +214,45 @@ class VectorToolsTester(unittest.TestCase):
 		self.assertEqual(expected_dot_product_x_y, x*y)
 		self.assertEqual(expected_dot_product_x_z, x*z)
 
+	def test_normalization_techniques(self):
+		X = Vector(1, 2, 3)
+				
+		# test regular minmax
+		expected_return = Vector(0, 0.5, 1)
+		self.assertEqual(expected_return, X.minmax())
+		
+		# test regular minmaxab
+		expected_return = Vector(2, 2.5, 3)
+		self.assertEqual(expected_return, X.minmax(2, 3))
+		
+		# test minmaxmean
+		expected_return = Vector(-0.5, 0, 0.5)
+		self.assertEqual(expected_return, X.minmaxmean())
+
+		# test standard/zscore normalisation
+		expected_return = Vector(-1.224744871391589, 0.0, 1.224744871391589)
+		self.assertEqual(expected_return, X.stdnorm())
+		self.assertEqual(expected_return, X.normalized())
+
+		# test scaling to unit length
+		X = Vector(4, -9)
+		expected_return = Vector(4/sqrt(97), -9/sqrt(97))
+		self.assertEqual(expected_return, X.unitvec())
+
 	def test_pop(self):
 		a = Vector(1,2,3)
-		a.pop()
-		expected_a_after_pop = Vector(1,2)
 
+		a.pop()
+
+		expected_a_after_pop = Vector(1,2)
 		self.assertEqual(expected_a_after_pop, a)
 
 		# Test pop() with index specified
 		b = Vector(1,2,3)
-		b.pop(1)
-		expected_b_after_pop = Vector(1,3)
 
+		b.pop(1)
+
+		expected_b_after_pop = Vector(1,3)
 		self.assertEqual(expected_b_after_pop, b)
 
 	def test_scalar_multiplication(self):
@@ -223,15 +267,63 @@ class VectorToolsTester(unittest.TestCase):
 		self.assertEqual(expected_result_from_scalar_mul_by_two, 2*a)
 		self.assertEqual(expected_result_from_scalar_mul_by_two, a*2)
 
+	def test_memsize(self):
+		a = Vector(1,2,3)
+
+		tsize = sum(
+			[
+				sys.getsizeof(x) for x in (
+					a,
+					a.components,
+					a.dimensions,
+					a.min,
+					a.max,
+					a.sum
+				)
+			]
+		)
+
+		self.assertEqual(tsize, a.memsize)
+
+	def test_randvec(self):
+		a = randvec(5)
+
+		self.assertEqual(5, a.dimensions)
+
+	def test_shuffling(self):
+		# Test shuffled()
+		a = Vector(1,2,3,4,5,6,7,8,9,10,11,12)
+		b = a.shuffled()
+
+		self.assertEqual(a.sum, b.sum)
+		self.assertEqual(a.mean(), b.mean())
+		self.assertEqual(a.std(), b.std())
+
+		# Test shuffled
+		a = Vector(1,2,3,4,5,6,7,8,9,10,11,12)
+		b = Vector(1,2,3,4,5,6,7,8,9,10,11,12)
+		
+		a.shuffle()
+		self.assertTrue(a != b)
+
+
+	def test_std(self):
+		a = Vector(1,2,3,4,5)
+		
+		# check standard devaition
+		expected_result = sqrt(2)
+		self.assertEqual(expected_result, a.std())
+
 	def test_string_representation(self):
 		a = Vector(1,2,3)
 
-		"Vector({})"
 		self.assertEqual("Vector(1.0 2.0 3.0)", str(a))
 		self.assertEqual(
 			"The right representation must be: Vector(1.0 2.0 3.0)", 
 			"The right representation must be: {}".format(a)
 		)
+		
+		self.assertEqual("1.0 2.0 3.0", a.__repr__(matrixmode=True))
 
 	def test_subtraction(self):
 		expected_x_minus_y = Vector(-1,1)
@@ -245,16 +337,102 @@ class VectorToolsTester(unittest.TestCase):
 		self.assertEqual(expected_x_minus_y, x.subtract(y))
 		self.assertEqual(expected_y_minus_x, y.subtract(x))
 
+	def test_sum_min_max(self):
+		a = Vector(1,2,3,4,5)
+		
+		# after initialisation
+		expected_min = (1.0, 0)
+		expected_max = (5.0, 4)
+		expected_sum = 15
+
+		self.assertEqual(expected_min, a.min)
+		self.assertEqual(expected_max, a.max)
+		self.assertEqual(expected_sum, a.sum)
+
+		# after changing a component
+		a[1] = -2
+		expected_min = (-2.0, 1)
+		expected_max = (5.0, 4)
+		expected_sum = 11
+
+		self.assertEqual(expected_min, a.min)
+		self.assertEqual(expected_max, a.max)
+		self.assertEqual(expected_sum, a.sum)
+
+		# after deletion
+		a.pop(1)
+		expected_min = (1.0, 0)
+		expected_max = (5.0, 3)
+		expected_sum = 13
+
+		self.assertEqual(expected_min, a.min)
+		self.assertEqual(expected_max, a.max)
+		self.assertEqual(expected_sum, a.sum)
+		
+		# after appending
+		a.append(-2)
+		expected_min = (-2.0, 4)
+		expected_max = (5.0, 3)
+		expected_sum = 11
+
+		self.assertEqual(expected_min, a.min)
+		self.assertEqual(expected_max, a.max)
+		self.assertEqual(expected_sum, a.sum)
+
+		# after inserting a value
+		a.insert(2, -20)
+
+		expected_min = (-20.0, 2)
+		expected_max = (5.0, 4)
+		expected_sum = -9
+		self.assertEqual(expected_min, a.min)
+		self.assertEqual(expected_max, a.max)
+		self.assertEqual(expected_sum, a.sum)
+		
+		# after inserting a value at min position
+		a.insert(2, -21)
+
+		expected_min = (-21.0, 2)
+		expected_max = (5.0, 5)
+		expected_sum = -30
+		self.assertEqual(expected_min, a.min)
+		self.assertEqual(expected_max, a.max)
+		self.assertEqual(expected_sum, a.sum)
+		
+		# after inserting a value at max position
+		a.insert(5, 10)
+
+		expected_min = (-21.0, 2)
+		expected_max = (10, 5)
+		expected_sum = -20
+		self.assertEqual(expected_min, a.min)
+		self.assertEqual(expected_max, a.max)
+		self.assertEqual(expected_sum, a.sum)
+
+	def test_vector_equation(self):
+		a = Vector(1, 2, 3)
+		b = Vector(3, 2, 1)
+		
+		expected = "eq = [1.0 2.0 3.0] + t[2.0 0.0 -2.0]"
+		
+		self.assertEqual(expected, a.vector_eq(b))
+
 	def test_vectorization_of_dictionaries(self):
 		a = {"latitude":2.345, "longitude":-3.421}
-		expected_vector_from_a = Vector(2.345, -3.421)
 
+		expected_vector_from_a = Vector(2.345, -3.421)
 		self.assertEqual(expected_vector_from_a, Vector(a))
 	
 	def test_vectorization_of_lists(self):
 		a = [1,2,3]
-		expected_vector_from_a = Vector(1,2,3)
 
+		expected_vector_from_a = Vector(1,2,3)
+		self.assertEqual(expected_vector_from_a, Vector(a))
+
+	def test_vectorization_of_range(self):
+		a = range(1, 4)
+
+		expected_vector_from_a = Vector(1,2,3)
 		self.assertEqual(expected_vector_from_a, Vector(a))
 
 	def test_vectorization_of_scalars(self):
@@ -264,10 +442,11 @@ class VectorToolsTester(unittest.TestCase):
 
 	def test_vectorization_of_tuples(self):
 		a = (1,2,3)
-		expected_vector_from_a = Vector(1,2,3)
 
+		expected_vector_from_a = Vector(1,2,3)
 		self.assertEqual(expected_vector_from_a, Vector(a))
 
 
 if __name__ == "VectorkitTester":
 	unittest.main(verbosity=2)
+	
