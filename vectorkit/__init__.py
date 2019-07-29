@@ -1,2 +1,2 @@
 
-from vectorkit.vectortools import Vector, isovector
+from vectorkit.vectortools import Vector, isovector, randvec

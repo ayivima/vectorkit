@@ -2,13 +2,16 @@
 """Tools for Vector Arithmetic."""
 
 
-from math import pow, sqrt, floor
+import random
 import re
+import sys
+
+from math import pow, sqrt, floor, inf
 
 
 __name__ = "Vectortools"
-__version__ = "0.1.3"
-__author__ = "Victor Mawusi Ayi"
+__version__ = "0.1.4"
+__author__ = "Victor Mawusi Ayi <ayivima@hotmail.com>"
 
 
 class Vector():
@@ -17,7 +20,7 @@ class Vector():
 
 		if len(args) == 1:
 			param = args[0]
-			if type(param) in (list, tuple):
+			if type(param) in (list, tuple, range):
 				args = param
 			elif type(param)==dict:
 				args = list(param.values())
@@ -30,11 +33,25 @@ class Vector():
 				)
 
 		args = list(args)
-
+		mincomp = (inf, inf)
+		maxcomp = (-inf, inf)
+		vecsum = 0
+		
 		for index in range(len(args)):
 			val = args[index]
 			try:
-				args[index] = float(val)
+				val = float(val)
+				args[index] = val
+
+				if val < mincomp[0]:
+					mincomp = val, index
+				elif val > maxcomp[0]:
+					maxcomp = val, index
+				else:
+					pass
+
+				vecsum += val
+
 			except ValueError:
 				raise ValueError(
 					"Value '{}' is not a number. "
@@ -45,7 +62,15 @@ class Vector():
 		self.dimensions = self.__dimensions__()
 
 		if self.dimensions == 1:
+			mincomp = (0, 1)
 			self.extend(2, 0)
+
+		# prestore queries for reusability, 
+		# to avoid needless time complexities
+		self.min = mincomp
+		self.max = maxcomp
+		self.sum = vecsum
+		self.memsize = self.__memsize__()
 
 	def __add__(self, operand):
 		if isinstance(operand, Vector):
@@ -59,16 +84,21 @@ class Vector():
 				"Addends must be of the same <Vector> type"
 			)
 
-	def __contains__(self, number):	
+	def __contains__(self, number):
 		return True if number in self.components else False
 
 	def __describe__(self):
 		"""Returns a statement of the Vector's dimension."""
 
-		components_str = ", ".join([str(x) for x in self.components])
+		components_str = ", ".join(
+			[str(x) for x in self.components]
+		)
+
 		return (
-			"A {}-dimensional vector with components: "
-			"{}".format(self.dimensions, components_str)
+			"A {}-dimensional vector with components: {}. "
+			"[ Memory Size {} bytes ]".format(
+				self.dimensions, components_str, self.memsize
+			)
 		)
 
 	def __dimensions__(self):
@@ -112,6 +142,23 @@ class Vector():
 	def __len__(self):
 		return self.dimensions
 
+	def __mean__(self):
+		return self.sum/self.dimensions
+
+	def __memsize__(self):
+		return sum(
+			[
+				sys.getsizeof(x) for x in (
+					self,
+					self.components,
+					self.dimensions,
+					self.min,
+					self.max,
+					self.sum
+				)
+			]
+		)
+
 	def __mul__(self, operand):
 		if type(operand) in (int, float):
 			return self.smul(operand)
@@ -123,25 +170,60 @@ class Vector():
 				" a <Vector> and {}.".format(type(operand))
 			)
 
-	def __rmul__(self, operand):
-		return self.__mul__(operand)
-
 	def __ne__(self, operand):
 		return self.components!=operand.components
 
-	def __repr__(self):
-		value_str = " ".join(
-			[str(val) for val in self.components]
-		)
-		return "Vector({})".format(value_str)
+	def __neg__(self):
+		return self.reversed()
 
-	def __setitem__(self, key, value):
+	def __pow__(self, power):
+		return Vector(
+			[pow(X, power) for X in self.components]
+		)
+
+	def __rmul__(self, operand):
+		return self.__mul__(operand)
+
+	def __repr__(self, matrixmode=False):
+		if self.dimensions <= 12:
+			value_str = " ".join(
+				[str(val) for val in self.components]
+			)
+		else:
+			head =  " ".join(
+				[str(round(val, 3)) for val in self.components[:5]]
+			)
+			
+			tail =  " ".join(
+				[str(round(val, 3)) for val in self.components[-5:]]
+			)
+			
+			value_str = "...".join((head, tail))
+
+		return "Vector({})".format(value_str) if not matrixmode else value_str
+
+	def __setitem__(self, index, value):
 		if type(value) in (int, float):
-			self.components[key] = value		
+			replaced_val = self.components[index]
+
+			self.components[index] = value
+
+			self.sum = self.sum - replaced_val + value
+			if self.min[0] > value: self.min = value, index
+			if self.max[0] < value: self.max = value, index
 		else:
 			raise TypeError(
 				"Value to be inserted must be a number"
 			)
+
+	def __std__(self):
+		"""Returns the standard deviation of the components of a Vector."""
+		mean = self.__mean__()
+		component_count = self.dimensions
+		
+		return sqrt(
+			sum([pow(x - mean, 2) for x in self.components])/component_count
+		)
 
 	def __str__(self):
 		return self.__repr__()
@@ -167,14 +249,26 @@ class Vector():
 		"""Appends a component to a Vector."""
 
 		if type(value) in (int, float):
+			value = float(value)			
 			self.components.append(value)
-		elif type(value)==list:
-			self.components = self.components + value
-		elif type(value)==tuple:
-			self.components = self.components + list(value)
+			
+			self.sum += value
+			
+			index = self.dimensions
+			if self.min[0] > value: self.min = value, index
+			if self.max[0] < value: self.max = value, index
+			
+		elif type(value) in (tuple, list):
+			for i in value:
+				if type(i) in (int, float): 
+					self.append(float(i))
+				else:
+					raise ValueError(
+						"Argument must be an integer or float"
+					)
 		else:
 			raise ValueError(
-				"argument must be an integer, float, tuple, or list"
+				"Argument must be an integer, float, tuple, list"
 			)
 
 		self.dimensions = self.__dimensions__()
@@ -215,6 +309,8 @@ class Vector():
 			)
 
 	def describe(self):
+		"""Describes a Vector in words."""
+		
 		return self.__describe__()
 
 	def distance(self, operand):
@@ -318,10 +414,67 @@ class Vector():
 		if type(value) in (int, float):
 			self.components.insert(index, value)
 			self.dimensions = self.__dimensions__()
+			
+			self.sum = self.sum + value
+			if self.min[0] > value:
+				self.min = value, index
+				if self.max[1] >= index:
+					self.max = self.max[0], self.max[1]+1
+
+			if self.max[0] < value:
+				self.max = value, index
+				if self.min[1] >= index:
+					self.min = self.min[0], self.min[1]+1
 		else:
 			raise TypeError(
 				"value must be an integer or float"
 			)
+
+	def magnitude(self):
+		return sqrt(
+			sum([pow(x, 2) for x in self.components])
+		)
+
+	def mean(self):
+		return self.__mean__()
+
+	def minmax(self, a=0, b=1):
+		"""Normalizes using min-max feature scaling.
+		
+		Parameters
+		----------
+		a : minimum value of the scaling range
+		b : maximum value of the scaling range
+		
+		"""
+
+		min_ = self.min[0]
+		max_ = self.max[0]
+		
+		if a==0 and b==1:
+			norm_val = lambda X: (
+				(X - min_)/(max_ - min_)
+			)
+		else:
+			norm_val = lambda X: (
+				a + (((X - min_)*(b - a)) /(max_ - min_))
+			)
+
+		return Vector(
+			[norm_val(X) for X in self.components]
+		)
+
+	def minmaxmean(self):
+		"""Normalizes vector using the mean."""
+
+		X_ = self.__mean__()
+
+		return Vector(
+			[(X - X_)/(self.max[0] - self.min[0]) for X in self.components]
+		)
+
+	def normalized(self):
+		return self.stdnorm()
 
 	def pop(self, index=None):
 		"""Deletes a component.
@@ -334,13 +487,19 @@ class Vector():
 		"""
 
 		if  (type(index)==int and index >= 0) or index==None:
-			index = index if index!=None else self.dimensions-1
-			self.components.pop(index)
+			index = index if index != None else self.dimensions - 1
 
-			if self.__dimensions__()==1:
-				self.components.append(0)
-
+			val = self.components.pop(index)
+			self.sum = self.sum - val
 			self.dimensions = self.__dimensions__()
+
+			if val in (self.min[0], self.max[0]):
+				sorted_comp = sorted(self.components)
+				new_min = sorted_comp[0]
+				self.min = new_min, self.components.index(new_min)
+				new_max = sorted_comp[-1]
+				self.max = new_max, self.components.index(new_max)
+
 		else:
 			raise ValueError(
 				"Index argument must be a positive integer"
@@ -382,6 +541,18 @@ class Vector():
 				"Second operand must be a scalar"
 			)
 
+	def shuffle(self):
+		"""Shuffles the components of this Vector in-place."""
+
+		random.shuffle(self.components)
+
+	def shuffled(self):
+		"""Returns a Vector whose components are shuffled version of this vector."""
+
+		return Vector(
+			random.sample(self.components, self.dimensions)
+		)
+
 	def smul(self, scalar):
 		"""Returns the product of a scalar multiplication.
 
@@ -402,6 +573,35 @@ class Vector():
 			raise ValueError(
 				"Second operand must be a scalar"
 			)
+
+	def std(self):
+		"""Returns the standard deviation of the components of a Vector."""
+
+		return self.__std__()
+
+	def stdnorm(self):
+		"""Returns a normalised variant of this Vector."""
+
+		mean = self.__mean__()
+
+		# Could have used already computed standard deviation
+		# but that would not reuse the mean and would increase
+		# time complexity.
+		std = sqrt(
+			sum([pow(x - mean, 2) for x in self.components])/self.dimensions
+		)
+
+		if std > 0:
+			return Vector(
+				[(x - mean)/std for x in self.components]
+			)
+		else:
+			if self.components[0] in (-1, 0, 1):
+				return self
+			else:
+				return Vector(
+					[1 for _ in range(self.dimensions)]
+				)
 
 	def subtract(self, operand):
 		"""Performs Vector subtraction.
@@ -443,6 +643,24 @@ class Vector():
 
 		return tuple(self.components)
 
+	def unitvec(self):
+		"""Returns a normalized variant of this Vector, scaled to unit length."""
+	
+		magnitude = self.magnitude()
+		
+		return (
+			Vector([x/magnitude for x in self.components])
+		)
+
+	def vector_eq(self, other):
+		"""Returns the vectpr equation of a line between two vectors"""
+	
+		return (
+			"eq = [{}] + t[{}]".format(
+				self.__repr__(True), other.subtract(self).__repr__(True)
+			)
+		)
+		 
 
 def isovector(component, dimension):
 	"""Create a homogenous Vector of a specified dimension.
@@ -477,8 +695,23 @@ def isovector(component, dimension):
 			"first argument <number> must be a number"
 		)
 
+def randvec(dimensions):
+	"""Generates a random Vector.
+	
+	Parameters:
+	-----------
+	
+	dimensions : the number of components of the resultant vector
+	"""
+	
+	return Vector(
+		random.sample(
+			range(-dimensions, dimensions), dimensions
+		)
+	)
 
 def main():
+#if __name__ == "Vectortools":
 
 	interactive_shell_header = (
 		"====================================================="
