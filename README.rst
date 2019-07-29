@@ -11,7 +11,26 @@ INSTALLATION
 
 ::
 
-    $ pip install vectorkit
+    $ sudo pip install vectorkit
+    
+::
+    
+    C:\Users\JohnDoe>pip install vectorkit
+
+USAGE IN SCRIPTS
+================
+
+To use vectorkit in your script, import it the usual way.
+
+::
+
+    >>> from vectorkit import Vector, isovector, randvec
+    
+::
+
+    >>> import vectorkit
+    
+
 
 
 VECTORKIT INTERACTIVE SHELL
@@ -32,20 +51,136 @@ You can use the interactive shell for live vector arithmetic. To activate the in
     Vector(2.0 3.0 4.0)
 
 
+ATTRIBUTES AND METHOD OVERVIEW
+==============================
 
-REGULAR USAGE
-=============
 
-To use vectorkit in your script, import it the usual way.
+Vector Properties
+-----------------
+
+``components`` - a list of the components of a vector
+
+``dimensions`` - the dimension of the vector, or count of its components
+
+``min`` - the minimum component
+
+``max`` - the maximum component
+
+``sum`` - the sum of the components of a vector
+
+``memsize`` - the size of a vector in memory
+
+
+Vector Methods
+--------------
+
+``add`` - Adds two vectors
+
+``append`` - Appends new components to a vector
+
+``concat`` - Merges two vectors into a single vector
+
+``crossmul`` - Returs the cross product of two 3-dimensional vectors
+
+``describe`` - Returns a description of a vector, including its dimensions and memory size
+
+``distance`` - Returns the euclidean distance between two vectors
+
+``dotmul`` - Returns the dot product between two vectors
+
+``extend`` - Appends zeroes to vectors to a specified length, in-place
+
+``extended`` - Returns a new vector with zero appended to it to a specified length,
+
+``insert`` - Inserts a new component at a specified index
+
+``magnitude`` - Returns the magnitude of a vector
+
+``mean`` - Returns the mean of the components of a vector
+
+``minmax`` - Returns a variant of a vector which has been normalized using standard min-max feature scaling
+
+``minmaxmean`` - Returns a variant of a vector which has been normalized using standard mean and min-max feature scaling
+
+``normalize`` - Returns a variant of a vector which has been normalized using the z-score or standard deviation
+
+``pop`` - Removes a component at a specified location
+
+``reverse`` - Reverses the direction of a vector in-place
+
+``reversed`` - Returns a variant of a vector with reversed direction
+
+``sdiv`` - Returns a new vector, which is the quotient from a scalar division of a vector
+
+``shuffle`` - Shuffles vector components in place
+
+``shuffled`` - Returns a new vector with shuffled version of a vector's components
+
+``smul`` - Returns a new vector, which is the product from a scalar multiplication of a vector
+
+``std`` - Returns the standard deviation of the components of a vector
+
+``stdnorm`` - Returns a variant of a vector which has been normalized using the z-score or standard deviation
+
+``subtract`` - Returns a new vector, which is the result of the subtraction of one vector from another
+
+``subvec`` - Returns a new vector which is a slice from the original vector
+
+``to_list`` - Returns a list of the components of a vector
+
+``to_tuple`` - Returns a tuple of the components of a vector
+
+``unitvec`` - Returns a new vector which has been scaled to unit length
+
+``vector_eq`` - Returns the vector equation of a line between two vectors
+
+
+Others
+------
+
+``isovector`` -  Returns a vector of a specified length containing the same component throughout
+
+``randvec`` - Generates a vector of specified length having random components
+
+
+USAGE EXAMPLES
+==============
+
+Get the equation of a line between two vectors
+----------------------------------------------
 
 ::
 
-    >>> from vectorkit import Vector, isovector
+    >>> a = Vector(1, 2, 3)
+    >>> b = Vector(3, 2, 1)
+    >>> a.vector_eq(b)
+    eq = [1.0 2.0 3.0] + t[2.0 0.0 -2.0]
     
+
+Create a random vector
+----------------------
+
 ::
 
-    >>> import vectorkit
-    
+    >>> w = randvec(6)
+    >>> w
+    Vector(-1.0 2.0 3.0 -2.0 -6.0 -5.0)
+
+
+Shuffle a vector
+----------------
+
+::
+
+    >>> w = Vector(1,2,3)
+    >>> w
+    Vector(1.0 2.0 3.0)
+    >>>
+    >>> w.shuffle()
+    >>>w
+    Vector(3.0 1.0 2.0)
+
+
 
 Create a vector from given numbers
 ----------------------------------
