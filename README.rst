@@ -177,7 +177,7 @@ Shuffle a vector
     Vector(1.0 2.0 3.0)
     >>>
     >>> w.shuffle()
-    >>>w
+    >>> w
     Vector(3.0 1.0 2.0)
 
 
@@ -582,9 +582,13 @@ Transforms a valid sequence or single numerical value(int or float) into a Vecto
 VERSION HISTORY
 ===============
 
+0.1.4
+-----
+Added functionality
+
 0.1.3
 -----
-First Version with extensive tests
+First Tested Version
 
 0.1.0
 -----
@@ -594,5 +598,5 @@ First Version with basic functionality
 AUTHOR
 ======
 
-Victor Mawusi Ayi
+Victor Mawusi Ayi <ayivima@hotmail.com>
 
