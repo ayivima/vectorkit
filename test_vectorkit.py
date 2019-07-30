@@ -9,7 +9,7 @@ from vectorkit import Vector, isovector, randvec
 
 
 __name__ = "VectorkitTester"
-__version__ = "0.1.4"
+__version__ = "0.1.5"
 __author__ = "Victor Mawusi Ayi <ayivima@hotmail.com>"
 
 
@@ -90,7 +90,7 @@ class VectorToolsTester(unittest.TestCase):
 
 	def test_describe(self):
 		expected_x_description = (
-			"A 2-dimensional vector with components: 1.0, 2.0. "
+			"A 2-dimensional vector. "
 			"[ Memory Size 190 bytes ]"
 		)
 		actual_x_description = x.describe()
@@ -197,12 +197,35 @@ class VectorToolsTester(unittest.TestCase):
 
 		self.assertEqual(expected_a, a)
 
+	def test_magnitude(self):
+		a = Vector(1,2,3)
+		
+		expected_magnitude = sqrt(14)
+		self.assertEqual(expected_magnitude, a.magnitude())
+
 	def test_mean(self):
 		X = Vector(2, 7, 3)
 
 		# Test mean
 		expected_mean = 4
 		self.assertEqual(expected_mean, X.mean())
+
+	def test_memsize(self):
+		a = Vector(1,2,3)
+
+		tsize = 0
+		props = (
+					a,
+					a.components,
+					a.dimensions,
+					a.min,
+					a.max,
+					a.sum
+		)
+		for x in props:
+			tsize += sys.getsizeof(x)
+
+		self.assertEqual(tsize, a.memsize)
 
 	def test_multiplication_with_operator(self):
 		# Using (*) between vectors produces dot product
@@ -266,24 +289,6 @@ class VectorToolsTester(unittest.TestCase):
 		# Test multiplication from right and left sides
 		self.assertEqual(expected_result_from_scalar_mul_by_two, 2*a)
 		self.assertEqual(expected_result_from_scalar_mul_by_two, a*2)
-
-	def test_memsize(self):
-		a = Vector(1,2,3)
-
-		tsize = sum(
-			[
-				sys.getsizeof(x) for x in (
-					a,
-					a.components,
-					a.dimensions,
-					a.min,
-					a.max,
-					a.sum
-				)
-			]
-		)
-
-		self.assertEqual(tsize, a.memsize)
 
 	def test_randvec(self):
 		a = randvec(5)
