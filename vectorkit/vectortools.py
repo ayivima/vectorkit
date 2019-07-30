@@ -10,7 +10,7 @@ from math import pow, sqrt, floor, inf
 
 
 __name__ = "Vectortools"
-__version__ = "0.1.4"
+__version__ = "0.1.5"
 __author__ = "Victor Mawusi Ayi <ayivima@hotmail.com>"
 
 
@@ -95,9 +95,9 @@ class Vector():
 		)
 
 		return (
-			"A {}-dimensional vector with components: {}. "
+			"A {}-dimensional vector. "
 			"[ Memory Size {} bytes ]".format(
-				self.dimensions, components_str, self.memsize
+				self.dimensions, self.memsize
 			)
 		)
 
@@ -143,21 +143,28 @@ class Vector():
 		return self.dimensions
 
 	def __mean__(self):
+		"""Returns the mean of the components of a Vector"""
+
 		return self.sum/self.dimensions
 
 	def __memsize__(self):
-		return sum(
-			[
-				sys.getsizeof(x) for x in (
-					self,
-					self.components,
-					self.dimensions,
-					self.min,
-					self.max,
-					self.sum
-				)
-			]
+		"""Returns of the memory size of a Vector in bytes"""
+
+		props = (
+			self,
+			self.components,
+			self.dimensions,
+			self.min,
+			self.max,
+			self.sum
 		)
+
+		memsize = 0
+
+		for prop in props:
+			memsize += sys.getsizeof(prop)
+
+		return memsize
 
 	def __mul__(self, operand):
 		if type(operand) in (int, float):
@@ -218,11 +225,17 @@ class Vector():
 
 	def __std__(self):
 		"""Returns the standard deviation of the components of a Vector."""
+
 		mean = self.__mean__()
 		component_count = self.dimensions
 		
+		sum_sq_diff = 0
+		
+		for x in self.components:
+			sum_sq_diff += pow(x - mean, 2)
+		
 		return sqrt(
-			sum([pow(x - mean, 2) for x in self.components])/component_count
+			sum_sq_diff/component_count
 		)
 
 	def __str__(self):
@@ -232,7 +245,7 @@ class Vector():
 		if isinstance(operand, Vector):
 			a, b = self.__dress__(operand)
 			magnitudes = [x - y for x, y in zip(a, b)]
-			result = Vector(*magnitudes)
+			result = Vector(magnitudes)
 
 			return result
 		else:
@@ -324,9 +337,13 @@ class Vector():
 
 		if isinstance(operand, Vector):
 			a, b = self.__dress__(operand)
-			dist = sqrt(sum([pow((x - y), 2) for x, y in zip(a, b)]))
+			
+			sum_sq_diff = 0
+			
+			for x, y in zip(a, b):
+				sum_sq_diff += pow((x - y), 2)
 
-			return dist
+			return sqrt(sum_sq_diff)
 		else:
 			raise TypeError(
 				"distance() requires <Vectors> types"
@@ -343,7 +360,10 @@ class Vector():
 
 		if isinstance(operand, Vector):
 			a, b = self.__dress__(operand)
-			dmul = sum([x*y for x,y in zip(a, b)])
+
+			dmul = 0
+			for x, y in zip(a, b):
+				dmul += x * y 
 
 			return dmul
 		else:
@@ -431,11 +451,17 @@ class Vector():
 			)
 
 	def magnitude(self):
-		return sqrt(
-			sum([pow(x, 2) for x in self.components])
-		)
+		"""Returns the magnitude of a Vector."""
+
+		sum_sq_mul = 0
+		for x in self.components:
+			sum_sq_mul += pow(x, 2)
+
+		return sqrt(sum_sq_mul)
 
 	def mean(self):
+		"""Returns the mean of the components of a Vector."""
+
 		return self.__mean__()
 
 	def minmax(self, a=0, b=1):
@@ -508,8 +534,7 @@ class Vector():
 	def reverse(self):
 		"""Sets a Vector in the opposite direction."""
 
-		old_self_coms = self.components[:]
-		self.components = [num*-1 for num in self.components]
+		self.components = [num * -1 for num in self.components]
 
 	def reversed(self):
 		"""Returns a new Vector whose direction is opposite that of the original Vector.
