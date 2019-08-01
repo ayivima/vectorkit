@@ -229,7 +229,7 @@ Describe a Vector
 
     >>> w = Vector(1, 2, 3)
     >>> w.describe()
-    A 3-dimensional vector with components: 1, 2, 3
+    A 3-dimensional vector with components: 1.0, 2.0, 3.0. [ Memory Size 194 bytes ]
 
 
 Check component membership
