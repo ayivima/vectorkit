@@ -296,6 +296,23 @@ class Vector():
 				"concat requires only <Vector> types"
 			)
 
+	def corr(self, other):
+		"""Returns the correlation between two vectors."""
+
+		x = self.components
+		y = other.components
+		x_ = self.mean()
+		y_ = other.mean()
+		x_std = self.std()
+		y_std = other.std()
+		len_x = self.dimensions
+		sum_mean_diff = 0
+
+		for index in range(len_x):
+			sum_mean_diff += (x[index] - x_) * (y[index] - y_)
+		
+		return sum_mean_diff / ((len_x - 1) * x_std * y_std)
+
 	def crossmul(self, operand):
 		"""Returns the cross product of two vectors in 3-D space."""
 
@@ -498,6 +515,23 @@ class Vector():
 		return Vector(
 			[(X - X_)/(self.max[0] - self.min[0]) for X in self.components]
 		)
+
+	def mse(self, other):
+		"""Returns the Mean Square Error between two vectors."""
+
+		# Vectors must be of same length
+		if self.dimensions==other.dimensions:
+			SE = 0
+			for index in range(self.dimensions):
+				SE += (self.dimensions[index] - other.dimensions[index])**2
+			
+			return SE/self.dimensions
+		
+		else:
+			raise ValueError(
+				"Vectors must be of the same length"
+			)
+				
 
 	def normalized(self):
 		return self.stdnorm()
@@ -785,7 +819,6 @@ def randvec(dimensions):
 	)
 
 def main():
-#if __name__ == "Vectortools":
 
 	interactive_shell_header = (
 		"====================================================="
