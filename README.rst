@@ -98,9 +98,27 @@ Others
 ``randvec`` - Generates a vector of specified length having random components
 
 
+Newly Added Methods [yet to be rolled out to pypi]
+-----------
 
-VERSION HISTORY
-===============
+``sigmoid`` - Passes a vector through a logistic sigmoid function and returns a new vector
+
+``softmax`` - Passes a vector through a softmax function and returns a new vector
+
+``relu`` - Passes a vector through a Rectified Linear Unit function and returns a new vector
+
+``tanh`` - Passes a vector through a TanH function and returns a new vector
+
+``sum_`` - Returns the sum of the components of a vector
+
+``mse`` - Returns the mean square error of two vectors
+
+``corr`` - Returns the correlation of two vectors
+
+
+
+PYPI VERSION HISTORY
+====================
 
 0.1.4
 -----
