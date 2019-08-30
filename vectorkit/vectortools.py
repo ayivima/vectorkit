@@ -6,7 +6,7 @@ import random
 import re
 import sys
 
-from math import pow, sqrt, floor, inf
+from math import pow, sqrt, floor, inf, exp
 
 
 __name__ = "Vectortools"
@@ -63,7 +63,7 @@ class Vector():
 
 		if self.dimensions == 1:
 			mincomp = (0, 1)
-			self.extend(2, 0)
+			self.pad(2, 0)
 
 		# prestore queries for reusability, 
 		# to avoid needless time complexities
@@ -107,25 +107,25 @@ class Vector():
 		return len(self.components)
 
 	def __dress__(self, operand, extension_component=0):
-		"""Compares Vectors and extends the Vector with lowest number of dimensions.
+		"""Compares Vectors and pads the Vector with lowest number of dimensions.
 
 		Parameters
 		----------
 		operand : the operand Vector
 
-		extension_component : the number to use to extend the Vector with lowest dimensions. 
+		extension_component : the number to use to pad the Vector with lowest dimensions. 
 					 Defaults to 0.
 		"""
 
 		if self.dimensions < operand.dimensions:
 			return(
-				self.extended(operand.dimensions, extension_component).components,
+				self.padded(operand.dimensions, extension_component).components,
 				operand.components
 			)
 		elif operand.dimensions < self.dimensions:
 			return(
 				self.components,
-				operand.extended(self.dimensions, extension_component).components
+				operand.padded(self.dimensions, extension_component).components
 			)
 		else:
 			return self.components, operand.components
@@ -371,38 +371,38 @@ class Vector():
 				"dotmul() requires only <Vector> types"
 			)
 
-	def extend(self, desired_length, extension_component=0):
+	def pad(self, desired_length, extension_component=0):
 		"""Extends a Vector with several of a specified component.
 
 		Parameters
 		----------
-		desired_length : The expected number of dimensions for the extended Vector
+		desired_length : The expected number of dimensions for the padded Vector
 
-		extension_component : The number to use to extend the Vector. 
+		extension_component : The number to use to pad the Vector. 
 					 Defaults to 0.
 
 		"""
 
-		self.components = self.extended(
+		self.components = self.padded(
 			desired_length, extension_component
 		).components
 		self.dimensions = self.__dimensions__()
 
-	def extended(self, desired_length, extension_component=0):
-		"""Returns a new Vector, which is the original Vector extended with several of a specified component.
+	def padded(self, desired_length, extension_component=0):
+		"""Returns a new Vector, which is the original Vector padded with several of a specified component.
 
 		Example
 		-------
 		if x = Vector(2,3),
-		x.extended(4, 1) returns Vector(2.0 3.0 1.0 1.0)
+		x.padded(4, 1) returns Vector(2.0 3.0 1.0 1.0)
 
 		*** x is preserved as a new Vector is returned.
 
 		Parameters
 		----------
-		desired_length : The expected number of dimensions for the extended Vector
+		desired_length : The expected number of dimensions for the padded Vector
 
-		extension_component : The number to use to extend the Vector. Defaults to 0.
+		extension_component : The number to use to pad the Vector. Defaults to 0.
 		
 		"""
 
@@ -411,13 +411,13 @@ class Vector():
 			desired_length > 0
 		):
 			deficit = desired_length - len(self)
-			extend_list = [extension_component for i in range(deficit)]
-			ext_vector = Vector(self.components + extend_list)
+			pad_list = [extension_component for i in range(deficit)]
+			ext_vector = Vector(self.components + pad_list)
 
 			return ext_vector
 		else:
 			raise ValueError(
-				"All arguments to extended() should be valid positive integers"
+				"All arguments to padded() should be valid positive integers"
 			)
 
 	def insert(self, index, value):
@@ -531,6 +531,15 @@ class Vector():
 				"Index argument must be a positive integer"
 			)
 
+	def relu(self):
+		"""Passes a vector through Rectified Linear Unit Function."""
+
+		relu = lambda y: max(0, y)
+
+		return Vector(
+			[relu(y) for y in self.components]
+		)
+
 	def reverse(self):
 		"""Sets a Vector in the opposite direction."""
 
@@ -578,6 +587,15 @@ class Vector():
 			random.sample(self.components, self.dimensions)
 		)
 
+	def sigmoid(self):
+		"""Passes vector through a sigmoid function and returns a new vector."""
+
+		sig = lambda x: 1 / (1 + exp(-x))
+
+		return Vector(
+			[sig(y) for y in self.components]
+		)
+
 	def smul(self, scalar):
 		"""Returns the product of a scalar multiplication.
 
@@ -598,6 +616,19 @@ class Vector():
 			raise ValueError(
 				"Second operand must be a scalar"
 			)
+
+	def softmax(self):
+		"""Passes vector through a softmax function and returns a new vector."""
+
+		sum_exp = 0
+		for x in self.components:
+			sum_exp += exp(x)
+
+		soft = lambda y: y / sum_exp
+
+		return Vector(
+			[soft(p) for p in self.components]
+		)
 
 	def std(self):
 		"""Returns the standard deviation of the components of a Vector."""
@@ -641,7 +672,7 @@ class Vector():
 
 
 	def subvec(self, start, end):
-		"""Creates a new Vector from a sequence of components from anoperand Vector.
+		"""Creates a new Vector from a sequence of components from another Vector.
 
 		Parameters
 		----------
@@ -652,6 +683,24 @@ class Vector():
 		"""
 
 		return Vector(self.components[start:end])
+
+	def sum_(self):
+		"""Returns the sum of the components of a vector"""
+
+		sum_vec = 0
+		for i in self.components:
+			sum_vec += i
+
+		return sum_vec
+
+	def tanh(self):
+		"""Passes vector through the tanh function and returns new vector."""
+
+		tnh = lambda y: (2 / (1 + exp(-2 * y))) - 1
+
+		return Vector(
+			[tnh(y) for y in self.components]
+		)
 
 	def to_list(self):
 		"""Returns a list of a Vector's components."""
