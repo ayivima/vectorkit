@@ -2,8 +2,8 @@ VECTOR KIT
 ==========
 
 Vectorkit, inspired by Facebook's Secure and Private AI Course, is part of a series of implementations of mathematical concepts of AI from the scratch. 
-Vectorkit seeks to make vector arithmetic simple and convenient for everyone. It may serve as a utility in a 
-large ecosystem of scientific libraries or, more simply, as a toy to be played with to understand Vector math.
+
+
 
 
 ATTRIBUTES AND METHOD OVERVIEW
