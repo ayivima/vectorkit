@@ -120,7 +120,7 @@ Newly Added Methods [yet to be rolled out to pypi]
 
 Changes to existing methods
 ---------------------------
-Changing method names ``extend`` and ``extended`` to ``pad`` and ``padded``
+Changing method names ``extend`` and ``extended`` to ``pad`` and ``padded`` respectively.
 
 
 
