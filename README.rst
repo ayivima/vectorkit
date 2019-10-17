@@ -3,7 +3,7 @@ VECTOR KIT
 
 Vectorkit, inspired by Facebook's Secure and Private AI Course, is part of a series of implementations of mathematical concepts of AI from the scratch. 
 
-
+.. image:: https://raw.githubusercontent.com/ayivima/vectorkit/master/img/shell_img.png
 
 
 ATTRIBUTES AND METHOD OVERVIEW
