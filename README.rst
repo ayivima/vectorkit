@@ -98,6 +98,9 @@ Others
 ``randvec`` - Generates a vector of specified length having random components
 
 
+WORK IN PROGRESS
+----------------
+
 Newly Added Methods [yet to be rolled out to pypi]
 -----------
 
@@ -113,7 +116,11 @@ Newly Added Methods [yet to be rolled out to pypi]
 
 ``corr`` - Returns the correlation of two vectors
 
-``cov`` - Returns 
+``cov`` - Returns the covariance between two vectors
+
+Changes to existing methods
+---------------------------
+Changing method names ``extend`` and ``extended`` to ``pad`` and ``padded``
 
 
 
