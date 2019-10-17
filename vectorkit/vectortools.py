@@ -72,9 +72,9 @@ class Vector():
 		self.sum = vecsum
 		self.memsize = self.__memsize__()
 
-	def __add__(self, operand):
-		if isinstance(operand, Vector):
-			a, b = self.__dress__(operand)
+	def __add__(self, other):
+		if isinstance(other, Vector):
+			a, b = self.__dress__(other)
 			magnitudes = [sum(pair) for pair in zip(a, b)]
 			result = Vector(*magnitudes)
 
@@ -86,6 +86,30 @@ class Vector():
 
 	def __contains__(self, number):
 		return True if number in self.components else False
+
+	def __covcalcs__(self, other):
+		"""Returns the covariance between two vectors, and 
+		their respective standard deviations.
+		
+		"""
+
+		x = self.components
+		y = other.components
+		x_ = self.mean()
+		y_ = other.mean()
+		x_std = self.std()
+		y_std = other.std()
+		n = self.dimensions
+		sum_mean_diff = 0
+
+		for index in range(n):
+			sum_mean_diff += (x[index] - x_) * (y[index] - y_)
+		
+		return (
+			sum_mean_diff / n,
+			x_std,
+			y_std
+		)
 
 	def __describe__(self):
 		"""Returns a statement of the Vector's dimension."""
@@ -106,29 +130,29 @@ class Vector():
 
 		return len(self.components)
 
-	def __dress__(self, operand, extension_component=0):
+	def __dress__(self, other, extension_component=0):
 		"""Compares Vectors and pads the Vector with lowest number of dimensions.
 
 		Parameters
 		----------
-		operand : the operand Vector
+		other : the other Vector
 
-		extension_component : the number to use to pad the Vector with lowest dimensions. 
-					 Defaults to 0.
+		extension_component: the number to use to pad the Vector 
+							with lowest dimensions. Defaults to 0.
 		"""
 
-		if self.dimensions < operand.dimensions:
+		if self.dimensions < other.dimensions:
 			return(
-				self.padded(operand.dimensions, extension_component).components,
-				operand.components
+				self.padded(other.dimensions, extension_component).components,
+				other.components
 			)
-		elif operand.dimensions < self.dimensions:
+		elif other.dimensions < self.dimensions:
 			return(
 				self.components,
-				operand.padded(self.dimensions, extension_component).components
+				other.padded(self.dimensions, extension_component).components
 			)
 		else:
-			return self.components, operand.components
+			return self.components, other.components
 
 	def __eq__(self, other):
 		return self.components==other.components
@@ -147,8 +171,15 @@ class Vector():
 
 		return self.sum/self.dimensions
 
-	def __memsize__(self):
-		"""Returns of the memory size of a Vector in bytes"""
+	def __memsize__(self, stringformat=False):
+		"""Returns the memory size of a Vector in bytes.
+		
+		Arguments:
+		
+		stringformat: (Boolean) specifies whether memory size should be 
+		              returned as a string
+		
+		"""
 
 		props = (
 			self,
@@ -164,21 +195,23 @@ class Vector():
 		for prop in props:
 			memsize += sys.getsizeof(prop)
 
-		return memsize
+		return (
+			"{} bytes".format(memsize) if stringformat else memsize
+		)
 
-	def __mul__(self, operand):
-		if type(operand) in (int, float):
-			return self.smul(operand)
-		elif isinstance(operand, Vector):
-			return self.dotmul(operand)
+	def __mul__(self, other):
+		if type(other) in (int, float):
+			return self.smul(other)
+		elif isinstance(other, Vector):
+			return self.dotmul(other)
 		else:
 			raise ValueError(
 				"Type mismatch! You cannot multiply"
-				" a <Vector> and {}.".format(type(operand))
+				" a <Vector> and {}.".format(type(other))
 			)
 
-	def __ne__(self, operand):
-		return self.components!=operand.components
+	def __ne__(self, other):
+		return self.components!=other.components
 
 	def __neg__(self):
 		return self.reversed()
@@ -188,8 +221,8 @@ class Vector():
 			[pow(X, power) for X in self.components]
 		)
 
-	def __rmul__(self, operand):
-		return self.__mul__(operand)
+	def __rmul__(self, other):
+		return self.__mul__(other)
 
 	def __repr__(self, matrixmode=False):
 		if self.dimensions <= 12:
@@ -241,9 +274,9 @@ class Vector():
 	def __str__(self):
 		return self.__repr__()
 
-	def __sub__(self, operand):
-		if isinstance(operand, Vector):
-			a, b = self.__dress__(operand)
+	def __sub__(self, other):
+		if isinstance(other, Vector):
+			a, b = self.__dress__(other)
 			magnitudes = [x - y for x, y in zip(a, b)]
 			result = Vector(magnitudes)
 
@@ -253,10 +286,10 @@ class Vector():
 				"Operands must be of the same <Vector> type"
 			)
 
-	def add(self, operand):
+	def add(self, other):
 		"""Adds two Vectors."""
 
-		return self.__add__(operand)
+		return self.__add__(other)
 
 	def append(self, value):
 		"""Appends a component to a Vector."""
@@ -286,40 +319,44 @@ class Vector():
 
 		self.dimensions = self.__dimensions__()
 
-	def concat(self, operand):
+	def concat(self, other):
 		"""Concatenate two Vectors."""
 
-		if isinstance(operand, Vector):
-			return Vector(self.components + operand.components)
+		if isinstance(other, Vector):
+			return Vector(self.components + other.components)
 		else:
 			raise TypeError(
 				"concat requires only <Vector> types"
 			)
 
+	def cov(self, other):
+		"""Returns the covariance between two vectors.
+		
+		Arguments
+		---------
+		
+		Other: the another vector
+		"""
+		
+		cov_, _, _ = self.__covcalcs__(other)
+		
+		return cov_
+
 	def corr(self, other):
 		"""Returns the correlation between two vectors."""
-
-		x = self.components
-		y = other.components
-		x_ = self.mean()
-		y_ = other.mean()
-		x_std = self.std()
-		y_std = other.std()
-		len_x = self.dimensions
-		sum_mean_diff = 0
-
-		for index in range(len_x):
-			sum_mean_diff += (x[index] - x_) * (y[index] - y_)
 		
-		return sum_mean_diff / ((len_x - 1) * x_std * y_std)
+		cov_, x_std, y_std = self.__covcalcs__(other)
+		
+		
+		return cov_ / (x_std * y_std)
 
-	def crossmul(self, operand):
+	def crossmul(self, other):
 		"""Returns the cross product of two vectors in 3-D space."""
 
-		if isinstance(operand, Vector):
-			if self.dimensions==operand.dimensions==3:
+		if isinstance(other, Vector):
+			if self.dimensions==other.dimensions==3:
 				a1, a2, a3 = self.components
-				b1, b2, b3 = operand.components
+				b1, b2, b3 = other.components
 
 				result = Vector(
 					a2*b3 - a3*b2,
@@ -343,17 +380,17 @@ class Vector():
 		
 		return self.__describe__()
 
-	def distance(self, operand):
+	def distance(self, other):
 		"""Returns the euclidean distance between two Vectors.
 
-		Parameters
+		Aurguments
 		----------
-		operand : a Vector
+		other : the other Vector
 
 		"""
 
-		if isinstance(operand, Vector):
-			a, b = self.__dress__(operand)
+		if isinstance(other, Vector):
+			a, b = self.__dress__(other)
 			
 			sum_sq_diff = 0
 			
@@ -366,17 +403,17 @@ class Vector():
 				"distance() requires <Vectors> types"
 			)
 
-	def dotmul(self, operand):
+	def dotmul(self, other):
 		"""Returns the dot product of two vectors.
 
-		Parameters
-		----------
-		operand : a Vector
-
+		Arguments
+		---------
+		
+		other : a Vector
 		"""
 
-		if isinstance(operand, Vector):
-			a, b = self.__dress__(operand)
+		if isinstance(other, Vector):
+			a, b = self.__dress__(other)
 
 			dmul = 0
 			for x, y in zip(a, b):
@@ -403,6 +440,7 @@ class Vector():
 		self.components = self.padded(
 			desired_length, extension_component
 		).components
+
 		self.dimensions = self.__dimensions__()
 
 	def padded(self, desired_length, extension_component=0):
@@ -440,8 +478,8 @@ class Vector():
 	def insert(self, index, value):
 		"""Inserts a new component.
 
-		Parameters
-		----------
+		Arguments
+		---------
 		index : Index where new component must be inserted
 
 		value : Component to be inserted
@@ -484,8 +522,8 @@ class Vector():
 	def minmax(self, a=0, b=1):
 		"""Normalizes using min-max feature scaling.
 		
-		Parameters
-		----------
+		Arguments
+		---------
 		a : minimum value of the scaling range
 		b : maximum value of the scaling range
 		
@@ -503,18 +541,18 @@ class Vector():
 				a + (((X - min_)*(b - a)) /(max_ - min_))
 			)
 
-		return Vector(
-			[norm_val(X) for X in self.components]
-		)
+		return Vector([
+			norm_val(X) for X in self.components
+		])
 
 	def minmaxmean(self):
 		"""Normalizes vector using the mean."""
 
 		X_ = self.__mean__()
 
-		return Vector(
-			[(X - X_)/(self.max[0] - self.min[0]) for X in self.components]
-		)
+		return Vector([
+			(X - X_)/(self.max[0] - self.min[0]) for X in self.components
+		])
 
 	def mse(self, other):
 		"""Returns the Mean Square Error between two vectors."""
@@ -577,7 +615,7 @@ class Vector():
 	def reverse(self):
 		"""Sets a Vector in the opposite direction."""
 
-		self.components = [num * -1 for num in self.components]
+		self.components = self.reversed().components
 
 	def reversed(self):
 		"""Returns a new Vector whose direction is opposite that of the original Vector.
@@ -593,20 +631,17 @@ class Vector():
 
 		Parameters
 		----------
-		scalar : a number of int or float type to divide the vector.
+		scalar: a number of int or float type to divide the vector.
 		
 		"""
 
 		if type(scalar) in (int, float):
-			return Vector(
-				[
-					component/scalar for component in self.components
-				]
-			)
-
+			return Vector([
+				component/scalar for component in self.components
+			])
 		else:
 			raise ValueError(
-				"Second operand must be a scalar"
+				"Second other must be a scalar"
 			)
 
 	def shuffle(self):
@@ -626,43 +661,44 @@ class Vector():
 
 		sig = lambda x: 1 / (1 + exp(-x))
 
-		return Vector(
-			[sig(y) for y in self.components]
-		)
+		return Vector([
+			sig(y) for y in self.components
+		])
 
 	def smul(self, scalar):
 		"""Returns the product of a scalar multiplication.
 
 		Parameters
 		----------
-		scalar : a number of int or float type to multiply vector.
+		scalar: a number (of int or float type) to multiply vector.
 
 		"""
 
 		if type(scalar) in (int, float):
-			return Vector(
-				[
-					component * scalar for component in self.components
-				]
-			)
-
+			return Vector([
+				component * scalar for component in self.components
+			])
 		else:
 			raise ValueError(
-				"Second operand must be a scalar"
+				"Second other must be a scalar"
 			)
 
 	def softmax(self):
 		"""Passes vector through a softmax function and returns a new vector."""
 
-		sum_exp = 0
+		exps = []
+		sum_exp = sum(exps)
+		
 		for x in self.components:
-			sum_exp += exp(x)
+			exp_x = exp(x)
+			sum_exp += exp_x
+			exps.append(exp_x)
 
 		soft = lambda y: y / sum_exp
 
-		return Vector(
-			[soft(p) for p in self.components]
-		)
+		return Vector([
+			soft(p) for p in exps
+		])
 
 	def std(self):
 		"""Returns the standard deviation of the components of a Vector."""
@@ -693,16 +729,16 @@ class Vector():
 					[1 for _ in range(self.dimensions)]
 				)
 
-	def subtract(self, operand):
+	def subtract(self, other):
 		"""Performs Vector subtraction.
 
 		Parameters
 		----------
-		operand : a Vector
+		other : a Vector
 
 		"""
 
-		return self.__sub__(operand)
+		return self.__sub__(other)
 
 
 	def subvec(self, start, end):
@@ -717,15 +753,6 @@ class Vector():
 		"""
 
 		return Vector(self.components[start:end])
-
-	def sum_(self):
-		"""Returns the sum of the components of a vector"""
-
-		sum_vec = 0
-		for i in self.components:
-			sum_vec += i
-
-		return sum_vec
 
 	def tanh(self):
 		"""Passes vector through the tanh function and returns new vector."""
@@ -819,6 +846,7 @@ def randvec(dimensions):
 	)
 
 def main():
+#if __name__ == "Vectortools":
 
 	interactive_shell_header = (
 		"====================================================="
