@@ -109,11 +109,11 @@ Newly Added Methods [yet to be rolled out to pypi]
 
 ``tanh`` - Passes a vector through a TanH function and returns a new vector
 
-``sum_`` - Returns the sum of the components of a vector
-
 ``mse`` - Returns the mean square error of two vectors
 
 ``corr`` - Returns the correlation of two vectors
+
+``cov`` - Returns 
 
 
 
