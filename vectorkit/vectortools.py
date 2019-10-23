@@ -227,7 +227,7 @@ class Vector():
 	def __repr__(self, matrixmode=False):
 		if self.dimensions <= 12:
 			value_str = " ".join(
-				[str(val) for val in self.components]
+				[str(round(val, 3)) for val in self.components]
 			)
 		else:
 			head =  " ".join(
@@ -845,13 +845,13 @@ def randvec(dimensions):
 		)
 	)
 
-def main():
-#if __name__ == "Vectortools":
+#def main():
+if __name__ == "Vectortools":
 
 	interactive_shell_header = (
 		"====================================================="
 		"\n\n"
-		"\tVECTORKIT :: v0.1.3 \n"
+		"\tVECTORKIT :: v0.1.5 \n"
 		"\tInteractive Shell"
 		"\n\n"
 		"====================================================="
