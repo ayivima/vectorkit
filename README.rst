@@ -47,10 +47,6 @@ Vector Methods
 
 ``dotmul`` - Returns the dot product between two vectors
 
-``extend`` - Appends zeroes to vectors to a specified length, in-place
-
-``extended`` - Returns a new vector with zero appended to it to a specified length,
-
 ``insert`` - Inserts a new component at a specified index
 
 ``magnitude`` - Returns the magnitude of a vector
@@ -64,6 +60,10 @@ Vector Methods
 ``mse`` - Returns the mean square error of two vectors
 
 ``normalize`` - Returns a variant of a vector which has been normalized using the z-score or standard deviation
+
+``pad`` - Appends zeroes to vectors to a specified length, in-place
+
+``padded`` - Returns a new vector with zero appended to it to a specified length,
 
 ``pop`` - Removes a component at a specified location
 
