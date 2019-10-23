@@ -2,19 +2,19 @@ from setuptools import setup
 
 
 def long_description():
-	with open('README.md') as f:
-		return f.read()
+    with open('README.md') as f:
+        return f.read()
 
 
 setup(
     name="vectorkit",
     version="0.1.6",
-	packages=["vectorkit"],
+    packages=["vectorkit"],
     description="Vector Kit seeks to make vector arithmetic simple for everyone. "
 	"It may serve as a utility in a large ecosystem of scientific libraries or, "
 	"more simply, as a toy to be played with to understand Vector math.",
-	long_description=long_description(),
-	long_description_content_type="text/markdown",
+    long_description=long_description(),
+    long_description_content_type="text/markdown",
     keywords=["AI", "vectors", "algebra", "geometry"],
     author="Victor Mawusi Ayi",
     author_email="ayivima@hotmail.com",
