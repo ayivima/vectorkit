@@ -10,7 +10,7 @@ from math import pow, sqrt, floor, inf, exp
 
 
 __name__ = "Vectortools"
-__version__ = "0.1.5"
+__version__ = "0.1.6"
 __author__ = "Victor Mawusi Ayi <ayivima@hotmail.com>"
 
 
@@ -845,13 +845,12 @@ def randvec(dimensions):
 		)
 	)
 
-#def main():
-if __name__ == "Vectortools":
+def main():
 
 	interactive_shell_header = (
 		"====================================================="
 		"\n\n"
-		"\tVECTORKIT :: v0.1.5 \n"
+		"\tVECTORKIT :: v0.1.6 \n"
 		"\tInteractive Shell"
 		"\n\n"
 		"====================================================="
