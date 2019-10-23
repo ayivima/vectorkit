@@ -1,7 +1,7 @@
 VECTOR KIT
 ==========
 
-Vectorkit, inspired by Facebook's Secure and Private AI Course, is part of a series of implementations of mathematical concepts of AI from the scratch. 
+Vectorkit is part of a series of implementations of mathematical concepts of AI from the scratch. 
 
 .. image:: https://raw.githubusercontent.com/ayivima/vectorkit/master/img/shell_img.png
 
@@ -35,6 +35,10 @@ Vector Methods
 
 ``concat`` - Merges two vectors into a single vector
 
+``corr`` - Returns the correlation of two vectors
+
+``cov`` - Returns the covariance between two vectors
+
 ``crossmul`` - Returs the cross product of two 3-dimensional vectors
 
 ``describe`` - Returns a description of a vector, including its dimensions and memory size
@@ -57,9 +61,13 @@ Vector Methods
 
 ``minmaxmean`` - Returns a variant of a vector which has been normalized using standard mean and min-max feature scaling
 
+``mse`` - Returns the mean square error of two vectors
+
 ``normalize`` - Returns a variant of a vector which has been normalized using the z-score or standard deviation
 
 ``pop`` - Removes a component at a specified location
+
+``relu`` - Passes a vector through a Rectified Linear Unit function and returns a new vector
 
 ``reverse`` - Reverses the direction of a vector in-place
 
@@ -71,6 +79,10 @@ Vector Methods
 
 ``shuffled`` - Returns a new vector with shuffled version of a vector's components
 
+``sigmoid`` - Passes a vector through a logistic sigmoid function and returns a new vector
+
+``softmax`` - Passes a vector through a softmax function and returns a new vector
+
 ``smul`` - Returns a new vector, which is the product from a scalar multiplication of a vector
 
 ``std`` - Returns the standard deviation of the components of a vector
@@ -80,6 +92,8 @@ Vector Methods
 ``subtract`` - Returns a new vector, which is the result of the subtraction of one vector from another
 
 ``subvec`` - Returns a new vector which is a slice from the original vector
+
+``tanh`` - Passes a vector through a TanH function and returns a new vector
 
 ``to_list`` - Returns a list of the components of a vector
 
@@ -95,30 +109,13 @@ Others
 
 ``isovector`` -  Returns a vector of a specified length containing the same component throughout
 
-``randvec`` - Generates a vector of specified length having random components
+``randvec`` - Generates a random vector of specified length
 
 
 WORK IN PROGRESS
 ----------------
 
-Newly Added Methods [yet to be rolled out to pypi]
------------
-
-``sigmoid`` - Passes a vector through a logistic sigmoid function and returns a new vector
-
-``softmax`` - Passes a vector through a softmax function and returns a new vector
-
-``relu`` - Passes a vector through a Rectified Linear Unit function and returns a new vector
-
-``tanh`` - Passes a vector through a TanH function and returns a new vector
-
-``mse`` - Returns the mean square error of two vectors
-
-``corr`` - Returns the correlation of two vectors
-
-``cov`` - Returns the covariance between two vectors
-
-Changes to existing methods
+Changes to existing methods <= v0.1.4
 ---------------------------
 Changing method names ``extend`` and ``extended`` to ``pad`` and ``padded`` respectively.
 
@@ -126,6 +123,10 @@ Changing method names ``extend`` and ``extended`` to ``pad`` and ``padded`` resp
 
 PYPI VERSION HISTORY
 ====================
+
+0.1.5
+-----
+Added new methods: ``corr``, ``cov``, ``mse``, ``relu``, ``sigmoid``, ``softmax``, ``tanh`` 
 
 0.1.4
 -----
