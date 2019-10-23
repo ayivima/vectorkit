@@ -112,21 +112,15 @@ Others
 ``randvec`` - Generates a random vector of specified length
 
 
-WORK IN PROGRESS
-----------------
-
-Changes to existing methods <= v0.1.4
----------------------------
-Changing method names ``extend`` and ``extended`` to ``pad`` and ``padded`` respectively.
-
-
 
 PYPI VERSION HISTORY
 ====================
 
 0.1.5
 -----
-Added new methods: ``corr``, ``cov``, ``mse``, ``relu``, ``sigmoid``, ``softmax``, ``tanh`` 
+Added new methods: ``corr``, ``cov``, ``mse``, ``relu``, ``sigmoid``, ``softmax``, ``tanh``
+
+Changing method names ``extend`` and ``extended`` to ``pad`` and ``padded`` respectively.
 
 0.1.4
 -----
