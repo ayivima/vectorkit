@@ -8,7 +8,7 @@ def long_description():
 
 setup(
     name="vectorkit",
-    version="0.1.5",
+    version="0.1.6",
 	packages=["vectorkit"],
     description="Vector Kit seeks to make vector arithmetic simple for everyone. "
 	"It may serve as a utility in a large ecosystem of scientific libraries or, "
