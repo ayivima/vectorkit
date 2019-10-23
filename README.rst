@@ -115,6 +115,9 @@ Others
 
 PYPI VERSION HISTORY
 ====================
+0.1.6
+-----
+Bug fix
 
 0.1.5
 -----
