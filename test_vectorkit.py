@@ -170,6 +170,15 @@ class VectorToolsTester(unittest.TestCase):
 		# Test that vector 'b' is preserved
 		self.assertTrue(Vector(1,3)==b)
 
+	def test_jaccard(self):
+		a = Vector(1, 2, 3, 4)
+		b = Vector(1, 2, 4, 4)
+		
+		expected_jaccard = round(3/4, 2)
+		jaccard = a.jaccard(b)
+		
+		self.assertEqual(expected_jaccard, jaccard)
+		
 	def test_vector_concatenation(self):
 		# x = Vector(1,2)
 		# y = Vector(2,1)
@@ -318,6 +327,15 @@ class VectorToolsTester(unittest.TestCase):
 		a = randvec(5)
 
 		self.assertEqual(5, a.dimensions)
+	
+	def test_rmse(self):
+		a = Vector(1, 2, 3)
+		b = Vector(2, 2, 3)
+		
+		expected_rmse = sqrt(1/3)
+		rmse = a.rmse(b)
+		
+		self.assertEqual(expected_rmse, rmse)
 
 	def test_rsquare(self):
 		a = Vector(1, 2, 3)
