@@ -118,7 +118,11 @@ WORK IN PROGRESS
 New Methods
 -----------
 
+``jaccard`` - Returns the jaccard similarity between two vectors
+
 ``mae`` -  Returns the mean absolute error between two vectors
+
+``rmse`` -   Returns the root mean square error between two vectors
 
 ``rsquare`` - Calculates the R square error between two vectors
 
