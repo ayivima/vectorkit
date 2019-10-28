@@ -23,7 +23,7 @@ class Vector():
 			if type(param) in (list, tuple, range):
 				args = param
 			elif type(param)==dict:
-				args = list(param.values())
+				args = param.values()
 			elif type(param) in (int, float):
 				pass
 			else:
@@ -153,7 +153,22 @@ class Vector():
 			)
 		else:
 			return self.components, other.components
+	
+	def __errdiff__(self, other):
 
+		# Vectors must be of same length
+		if self.dimensions==other.dimensions:
+			diff = []
+			for index in range(self.dimensions):
+				error_ = self.components[index] - other.components[index]
+				diff.append(error_)
+			
+			return diff
+		else:
+			raise ValueError(
+				"Vectors must be of the same length"
+			)
+		
 	def __eq__(self, other):
 		return self.components==other.components
 
@@ -425,56 +440,6 @@ class Vector():
 				"dotmul() requires only <Vector> types"
 			)
 
-	def pad(self, desired_length, extension_component=0):
-		"""Extends a Vector with several of a specified component.
-
-		Parameters
-		----------
-		desired_length : The expected number of dimensions for the padded Vector
-
-		extension_component : The number to use to pad the Vector. 
-					 Defaults to 0.
-
-		"""
-
-		self.components = self.padded(
-			desired_length, extension_component
-		).components
-
-		self.dimensions = self.__dimensions__()
-
-	def padded(self, desired_length, extension_component=0):
-		"""Returns a new Vector, which is the original Vector padded with several of a specified component.
-
-		Example
-		-------
-		if x = Vector(2,3),
-		x.padded(4, 1) returns Vector(2.0 3.0 1.0 1.0)
-
-		*** x is preserved as a new Vector is returned.
-
-		Parameters
-		----------
-		desired_length : The expected number of dimensions for the padded Vector
-
-		extension_component : The number to use to pad the Vector. Defaults to 0.
-		
-		"""
-
-		if (
-			type(desired_length)==type(extension_component)==int and
-			desired_length > 0
-		):
-			deficit = desired_length - len(self)
-			pad_list = [extension_component for i in range(deficit)]
-			ext_vector = Vector(self.components + pad_list)
-
-			return ext_vector
-		else:
-			raise ValueError(
-				"All arguments to padded() should be valid positive integers"
-			)
-
 	def insert(self, index, value):
 		"""Inserts a new component.
 
@@ -554,26 +519,77 @@ class Vector():
 			(X - X_)/(self.max[0] - self.min[0]) for X in self.components
 		])
 
+		
+	def mae(self, other):
+		"""Returns the Mean Absolute Error between two vectors."""
+		
+		diffs = self.__errdiff__(other)
+		return sum(diffs)/self.dimensions
+		
 	def mse(self, other):
 		"""Returns the Mean Square Error between two vectors."""
-
-		# Vectors must be of same length
-		if self.dimensions==other.dimensions:
-			SE = 0
-			for index in range(self.dimensions):
-				SE += (self.dimensions[index] - other.dimensions[index])**2
-			
-			return SE/self.dimensions
 		
-		else:
-			raise ValueError(
-				"Vectors must be of the same length"
-			)
-				
+		diffs = self.__errdiff__(other)
+		
+		sum_diffs = 0
+		for diff in diffs:
+			sum_diffs += pow(diff, 2)
+			
+		return sum_diffs/self.dimensions
 
 	def normalized(self):
 		return self.stdnorm()
 
+	def pad(self, desired_length, extension_component=0):
+		"""Extends a Vector with several of a specified component.
+
+		Parameters
+		----------
+		desired_length : The expected number of dimensions for the padded Vector
+
+		extension_component : The number to use to pad the Vector. 
+					 Defaults to 0.
+
+		"""
+
+		self.components = self.padded(
+			desired_length, extension_component
+		).components
+
+		self.dimensions = self.__dimensions__()
+
+	def padded(self, desired_length, extension_component=0):
+		"""Returns a new Vector, which is the original Vector padded with several of a specified component.
+
+		Example
+		-------
+		if x = Vector(2,3),
+		x.padded(4, 1) returns Vector(2.0 3.0 1.0 1.0)
+
+		*** x is preserved as a new Vector is returned.
+
+		Parameters
+		----------
+		desired_length : The expected number of dimensions for the padded Vector
+
+		extension_component : The number to use to pad the Vector. Defaults to 0.
+		
+		"""
+
+		if (
+			type(desired_length)==type(extension_component)==int and
+			desired_length > 0
+		):
+			deficit = desired_length - len(self)
+			pad_list = [extension_component for i in range(deficit)]
+			ext_vector = Vector(self.components + pad_list)
+
+			return ext_vector
+		else:
+			raise ValueError(
+				"All arguments to padded() should be valid positive integers"
+			)
+		
 	def pop(self, index=None):
 		"""Deletes a component.
 
@@ -611,6 +627,18 @@ class Vector():
 		return Vector(
 			[relu(y) for y in self.components]
 		)
+
+	def rsquare(self, other):
+
+		sum_sq_mean_diff = 0
+
+		for index in range(self.dimensions):
+			error_ = self.components[index] - self.mean()
+			sum_sq_mean_diff += pow(error_, 2)
+
+		meanerr = sum_sq_mean_diff/self.dimensions
+
+		return 1 - (self.mse(other)/meanerr)
 
 	def reverse(self):
 		"""Sets a Vector in the opposite direction."""
@@ -788,7 +816,7 @@ class Vector():
 		)
 
 	def vector_eq(self, other):
-		"""Returns the vectpr equation of a line between two vectors"""
+		"""Returns the vector equation of a line between two vectors"""
 	
 		return (
 			"eq = [{}] + t[{}]".format(
