@@ -245,6 +245,24 @@ class VectorToolsTester(unittest.TestCase):
 
 		self.assertEqual(tsize, a.memsize)
 
+	def test_mae(self):
+		a = Vector(1, 2, 3)
+		b = Vector(2, 2, 3)
+		
+		expected_mse = -1/3
+		mse = a.mae(b)
+		
+		self.assertEqual(expected_mse, mse)
+		
+	def test_mse(self):
+		a = Vector(1, 2, 3)
+		b = Vector(2, 2, 3)
+		
+		expected_mse = 1/3
+		mse = a.mse(b)
+		
+		self.assertEqual(expected_mse, mse)
+
 	def test_multiplication_with_operator(self):
 		# Using (*) between vectors produces dot product
 		# Testing dressing in the background
@@ -296,23 +314,20 @@ class VectorToolsTester(unittest.TestCase):
 		expected_b_after_pop = Vector(1,3)
 		self.assertEqual(expected_b_after_pop, b)
 
-	def test_scalar_multiplication(self):
-		a = Vector(1,2,3)
-		expected_result_from_scalar_mul_by_two = Vector(2,4,6)
-
-		# Test .smul()
-		self.assertEqual(expected_result_from_scalar_mul_by_two, a.smul(2))
-
-		# Test scalar multiplication with (*) operator
-		# Test multiplication from right and left sides
-		self.assertEqual(expected_result_from_scalar_mul_by_two, 2*a)
-		self.assertEqual(expected_result_from_scalar_mul_by_two, a*2)
-
 	def test_randvec(self):
 		a = randvec(5)
 
 		self.assertEqual(5, a.dimensions)
-	
+
+	def test_rsquare(self):
+		a = Vector(1, 2, 3)
+		b = Vector(2, 2, 3)
+		
+		expected_r2 = 1 - ((1/3)/(2/3))
+		r2 = a.rsquare(b)
+		
+		self.assertEqual(expected_r2, r2)
+		
 	def test_relu(self):
 		# Test positive and negative values
 		a = Vector(-1,-2,-3, 1)
@@ -327,6 +342,18 @@ class VectorToolsTester(unittest.TestCase):
 		expected_relu = Vector(1, 2, 3, 1)
 		
 		self.assertEqual(b, expected_relu)
+
+	def test_scalar_multiplication(self):
+		a = Vector(1,2,3)
+		expected_result_from_scalar_mul_by_two = Vector(2,4,6)
+
+		# Test .smul()
+		self.assertEqual(expected_result_from_scalar_mul_by_two, a.smul(2))
+
+		# Test scalar multiplication with (*) operator
+		# Test multiplication from right and left sides
+		self.assertEqual(expected_result_from_scalar_mul_by_two, 2*a)
+		self.assertEqual(expected_result_from_scalar_mul_by_two, a*2)
 
 	def test_shuffling(self):
 		# Test shuffled()
