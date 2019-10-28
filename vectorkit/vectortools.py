@@ -470,6 +470,22 @@ class Vector():
 				"value must be an integer or float"
 			)
 
+	def jaccard(self, other):
+		"""Returns the jaccard similarity between two vectors"""
+		
+		jindex = 0
+		
+		if self.dimensions==other.dimensions:
+			for x, y in zip(self.components, other.components):
+				if x==y:
+					jindex += 1
+		else:
+			raise ValueError(
+				"Vectors must be of the same length"
+			)
+		
+		return round(jindex/self.dimensions, 2)
+			
 	def magnitude(self):
 		"""Returns the magnitude of a Vector."""
 
@@ -628,8 +644,14 @@ class Vector():
 			[relu(y) for y in self.components]
 		)
 
+	def rmse(self, other):
+		"""Returns the Root Mean Square Error between two vectors"""
+		
+		return sqrt(self.mse(other))
+		
 	def rsquare(self, other):
-
+		"""Returns the R-Square Score for two compared vectors"""
+		
 		sum_sq_mean_diff = 0
 
 		for index in range(self.dimensions):
@@ -873,7 +895,8 @@ def randvec(dimensions):
 		)
 	)
 
-def main():
+# def main():
+if __name__ == "Vectortools":
 
 	interactive_shell_header = (
 		"====================================================="
