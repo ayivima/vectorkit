@@ -112,6 +112,16 @@ Others
 ``randvec`` - Generates a random vector of specified length
 
 
+WORK IN PROGRESS
+================
+
+New Methods
+-----------
+
+``mae`` -  Returns the mean absolute error between two vectors
+
+``rsquare`` - Calculates the R square error between two vectors
+
 
 PYPI VERSION HISTORY
 ====================
