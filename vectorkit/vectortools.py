@@ -483,11 +483,28 @@ class Vector():
 			raise ValueError(
 				"Vectors must be of the same length"
 			)
-		
+
 		return round(jindex/self.dimensions, 2)
-			
+
+	def leastdev(self, other):
+		"""Returns the Least Absolute Deviation(L1 Norm) between two vectors"""
+
+		diffs = self.__errdiff__(other)
+		return sum(diffs)
+
+	def leastsq(self, other):
+		"""Returns the Least Squares(L2 Norm) between two vectors"""
+
+		diffs = self.__errdiff__(other)
+		
+		sum_diffs = 0
+		for diff in diffs:
+			sum_diffs += pow(diff, 2)
+		
+		return sum_diffs
+
 	def magnitude(self):
-		"""Returns the magnitude of a Vector."""
+		"""Returns the magnitude of a Vector"""
 
 		sum_sq_mul = 0
 		for x in self.components:
