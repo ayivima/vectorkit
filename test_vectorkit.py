@@ -178,7 +178,25 @@ class VectorToolsTester(unittest.TestCase):
 		jaccard = a.jaccard(b)
 		
 		self.assertEqual(expected_jaccard, jaccard)
+
+	def test_least_absolute_deviations(self):
+		a = Vector(1, 2, 3)
+		b = Vector(2, 2, 3)
 		
+		expected_lad = -1
+		lad = a.leastdev(b)
+		
+		self.assertEqual(expected_lad, lad)
+
+	def test_least_squares(self):
+		a = Vector(1, 2, 3)
+		b = Vector(2, 2, 3)
+		
+		expected_lsq = 1
+		lsq = a.leastsq(b)
+		
+		self.assertEqual(expected_lsq, lsq)
+
 	def test_vector_concatenation(self):
 		# x = Vector(1,2)
 		# y = Vector(2,1)
@@ -566,4 +584,3 @@ class VectorToolsTester(unittest.TestCase):
 
 if __name__ == "VectorkitTester":
 	unittest.main(verbosity=2)
-	
