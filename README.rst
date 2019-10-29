@@ -120,6 +120,10 @@ New Methods
 
 ``jaccard`` - Returns the jaccard similarity between two vectors
 
+``leastdev`` - Returns the Least Absolute Deviations(L1 Norm) between to vectors
+
+``leastsq`` - Returns the Least Squares(L2 Norm) of two vectors
+
 ``mae`` -  Returns the mean absolute error between two vectors
 
 ``rmse`` -   Returns the root mean square error between two vectors
