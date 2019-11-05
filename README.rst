@@ -120,11 +120,15 @@ New Methods
 
 ``jaccard`` - Returns the jaccard similarity between two vectors
 
+``leakyrelu`` - Passes vector through a the leaky version of Rectified Linear Unit
+
 ``leastdev`` - Returns the Least Absolute Deviations(L1 Norm) between to vectors
 
 ``leastsq`` - Returns the Least Squares(L2 Norm) of two vectors
 
 ``mae`` -  Returns the mean absolute error between two vectors
+
+``pararelu`` - Passes vector through a the parametric version of Rectified Linear Unit
 
 ``rmse`` -   Returns the root mean square error between two vectors
 
