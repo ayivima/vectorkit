@@ -378,6 +378,36 @@ class VectorToolsTester(unittest.TestCase):
 		expected_relu = Vector(1, 2, 3, 1)
 		
 		self.assertEqual(b, expected_relu)
+		
+	def test_relu_leaky(self):
+		# Test positive and negative values
+		a = Vector(-1,-2,-3, 1)
+		b = a.leakyrelu()
+		expected_relu = Vector(-0.01, -0.02, -0.03, 1)
+
+		self.assertEqual(b, expected_relu)
+		
+		# Test positive values
+		a = Vector(1, 2, 3, 1)
+		b = a.leakyrelu()
+		expected_relu = Vector(1, 2, 3, 1)
+		
+		self.assertEqual(b, expected_relu)
+
+	def test_relu_parametric(self):
+		# Test positive and negative values
+		a = Vector(-1,-2,-3, 1)
+		b = a.pararelu(0.5)
+		expected_relu = Vector(-0.5, -1, -1.5, 1)
+
+		self.assertEqual(b, expected_relu)
+		
+		# Test positive values
+		a = Vector(1, 2, 3, 1)
+		b = a.pararelu(0.5)
+		expected_relu = Vector(1, 2, 3, 1)
+		
+		self.assertEqual(b, expected_relu)	
 
 	def test_scalar_multiplication(self):
 		a = Vector(1,2,3)
@@ -584,3 +614,4 @@ class VectorToolsTester(unittest.TestCase):
 
 if __name__ == "VectorkitTester":
 	unittest.main(verbosity=2)
+	
