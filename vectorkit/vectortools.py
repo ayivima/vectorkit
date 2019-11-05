@@ -440,6 +440,16 @@ class Vector():
 				"dotmul() requires only <Vector> types"
 			)
 
+	def ediv(self, other):
+		"""Performs element wise division on two vectors"""
+		
+		self_comps = self.components
+		other_comps = other.components
+		
+		return Vector(
+			[x / y for x, y in zip(self_comps, other_comps)]
+		)
+
 	def insert(self, index, value):
 		"""Inserts a new component.
 
@@ -485,6 +495,11 @@ class Vector():
 			)
 
 		return round(jindex/self.dimensions, 2)
+
+	def leakyrelu(self):
+		"""Passes a vector through the Leaky Rectified Linear Unit Function."""
+
+		return self.relu(0.01)
 
 	def leastdev(self, other):
 		"""Returns the Least Absolute Deviation(L1 Norm) between two vectors"""
@@ -622,7 +637,18 @@ class Vector():
 			raise ValueError(
 				"All arguments to padded() should be valid positive integers"
 			)
+
+	def pararelu(self, x):
+		"""Passes a vector through the Parametric Rectified Linear Unit Function.
 		
+		Parameters
+		----------
+		
+		x - scaling factor for negative components a vector
+		"""
+
+		return self.relu(x)
+
 	def pop(self, index=None):
 		"""Deletes a component.
 
@@ -652,10 +678,18 @@ class Vector():
 				"Index argument must be a positive integer"
 			)
 
-	def relu(self):
-		"""Passes a vector through Rectified Linear Unit Function."""
+	def relu(self, coef=0):
+		"""Passes a vector through Rectified Linear Unit Function.
+		
+		Parameters
+		----------
+		
+		coef - a value to be used for changing between standard relu, 
+		       leaky relu(0.01), and parametric relu.
+		
+		"""
 
-		relu = lambda y: max(0, y)
+		relu = lambda y: max(coef * y, y)
 
 		return Vector(
 			[relu(y) for y in self.components]
@@ -912,8 +946,7 @@ def randvec(dimensions):
 		)
 	)
 
-# def main():
-if __name__ == "Vectortools":
+def main():
 
 	interactive_shell_header = (
 		"====================================================="
