@@ -1,7 +1,7 @@
 VECTOR KIT
 ==========
 
-Vectorkit is part of a series of implementations of mathematical concepts of AI from the scratch. 
+Vectorkit is part of a series of python implementations of mathematical concepts of AI from the scratch. 
 
 .. image:: https://raw.githubusercontent.com/ayivima/vectorkit/master/img/shell_img.png
 
@@ -49,6 +49,16 @@ Vector Methods
 
 ``insert`` - Inserts a new component at a specified index
 
+``jaccard`` - Returns the jaccard similarity between two vectors
+
+``leakyrelu`` - Passes vector through the leaky version of Rectified Linear Unit
+
+``leastdev`` - Returns the Least Absolute Deviations(L1 Norm) between to vectors
+
+``leastsq`` - Returns the Least Squares(L2 Norm) of two vectors
+
+``mae`` -  Returns the mean absolute error between two vectors
+
 ``magnitude`` - Returns the magnitude of a vector
 
 ``mean`` - Returns the mean of the components of a vector
@@ -63,7 +73,9 @@ Vector Methods
 
 ``pad`` - Appends zeroes to vectors to a specified length, in-place
 
-``padded`` - Returns a new vector with zero appended to it to a specified length,
+``padded`` - Returns a new vector with zero appended to it to a specified length
+
+``pararelu`` - Passes vector through the parametric version of Rectified Linear Unit
 
 ``pop`` - Removes a component at a specified location
 
@@ -72,6 +84,10 @@ Vector Methods
 ``reverse`` - Reverses the direction of a vector in-place
 
 ``reversed`` - Returns a variant of a vector with reversed direction
+
+``rmse`` -   Returns the root mean square error between two vectors
+
+``rsquare`` - Calculates the R square error between two vectors
 
 ``sdiv`` - Returns a new vector, which is the quotient from a scalar division of a vector
 
@@ -115,28 +131,17 @@ Others
 WORK IN PROGRESS
 ================
 
-New Methods
+New Methods (yet to be rolled out in new version)
 -----------
 
-``jaccard`` - Returns the jaccard similarity between two vectors
-
-``leakyrelu`` - Passes vector through the leaky version of Rectified Linear Unit
-
-``leastdev`` - Returns the Least Absolute Deviations(L1 Norm) between to vectors
-
-``leastsq`` - Returns the Least Squares(L2 Norm) of two vectors
-
-``mae`` -  Returns the mean absolute error between two vectors
-
-``pararelu`` - Passes vector through the parametric version of Rectified Linear Unit
-
-``rmse`` -   Returns the root mean square error between two vectors
-
-``rsquare`` - Calculates the R square error between two vectors
 
 
 PYPI VERSION HISTORY
 ====================
+0.1.8
+-----
+New methods: ``jaccard``, ``leakyrelu``, ``leastdev``, ``leastsq``, ``mae``, ``pararelu``, ``rmse``, ``rsquare``
+
 0.1.6
 -----
 Bug fix
@@ -154,10 +159,6 @@ Added functionality
 0.1.3
 -----
 First Tested Version
-
-0.1.0
------
-First Version with basic functionality
 
 
 AUTHOR
