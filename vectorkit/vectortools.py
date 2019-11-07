@@ -10,7 +10,7 @@ from math import pow, sqrt, floor, inf, exp
 
 
 __name__ = "Vectortools"
-__version__ = "0.1.8"
+__version__ = "0.1.9"
 __author__ = "Victor Mawusi Ayi <ayivima@hotmail.com>"
 
 
@@ -364,6 +364,14 @@ class Vector():
 		
 		
 		return cov_ / (x_std * y_std)
+
+	def cosinesim(self, other):
+		"""Returns the cosine similarity between two vectors"""
+		
+		dot = self.dotmul(other)
+		mag_product = self.magnitude() * other.magnitude()
+
+		return dot/mag_product
 
 	def crossmul(self, other):
 		"""Returns the cross product of two vectors in 3-D space."""
@@ -947,7 +955,6 @@ def randvec(dimensions):
 	)
 
 def main():
-#if __name__ == "Vectortools":
 
 	interactive_shell_header = (
 		"====================================================="
