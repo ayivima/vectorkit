@@ -1,7 +1,7 @@
 
 """Tests for Vectorkit"""
 
-from math import sqrt
+from math import sqrt, floor
 import sys
 import unittest
 
@@ -9,7 +9,7 @@ from vectorkit import Vector, isovector, randvec
 
 
 __name__ = "VectorkitTester"
-__version__ = "0.1.6"
+__version__ = "0.1.9"
 __author__ = "Victor Mawusi Ayi <ayivima@hotmail.com>"
 
 
@@ -89,13 +89,38 @@ class VectorToolsTester(unittest.TestCase):
 
 		self.assertEqual(c, expected_c)
 
+	def test_cosine_similarity(self):
+		#test orthogonal vectors
+		a = Vector(1, 0)
+		b = Vector(0, 1)
+		expected_cosinesim = 0
+		cosinesim = a.cosinesim(b)
+		
+		self.assertEqual(expected_cosinesim, cosinesim)
+		
+		#test diametrically opposed vectors
+		a = Vector(2, 3)
+		b = Vector(-2, -3)
+		expected_cosinesim = -1
+		cosinesim = int(a.cosinesim(b))
+		
+		self.assertEqual(expected_cosinesim, cosinesim)
+		
+		#test vectors of similar orientation
+		a = Vector(2, 3)
+		b = Vector(2, 3)
+		expected_cosinesim = 1
+		cosinesim = int(a.cosinesim(b))
+		
+		self.assertEqual(expected_cosinesim, cosinesim)
+
 	def test_cov(self):
 		a = Vector(2, 3, 5)
 		b = Vector(6, 5, 4)
 		c = Vector(3, 4, 5)
 		d = Vector(1, 1, 1)
 		z = a.cov(b), a.cov(c), a.cov(d)
-		expected_z = -1.0, 1.0, 0.0
+		expected_z = (-1.0, 1.0, 0.0)
 
 		self.assertEqual(z, expected_z)
 
