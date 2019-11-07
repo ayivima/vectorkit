@@ -133,7 +133,7 @@ WORK IN PROGRESS
 
 New Methods (yet to be rolled out in new version)
 -----------
-
+``cosinesim`` - Returns the cosine similarity between two vectors 
 
 
 PYPI VERSION HISTORY
