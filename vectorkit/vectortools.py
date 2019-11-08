@@ -154,13 +154,20 @@ class Vector():
 		else:
 			return self.components, other.components
 	
-	def __errdiff__(self, other):
-
+	def __errdiff__(self, other, absolute=False):
+		
 		# Vectors must be of same length
 		if self.dimensions==other.dimensions:
 			diff = []
 			for index in range(self.dimensions):
 				error_ = self.components[index] - other.components[index]
+
+				if absolute:
+					# if the absolute parameter is set to True,
+					# an absolute value of the error is returned,
+					# instead of the raw value
+					error_ = abs(error_)
+
 				diff.append(error_)
 			
 			return diff
@@ -512,7 +519,7 @@ class Vector():
 	def leastdev(self, other):
 		"""Returns the Least Absolute Deviation(L1 Norm) between two vectors"""
 
-		diffs = self.__errdiff__(other)
+		diffs = self.__errdiff__(other, absolute=True)
 		return sum(diffs)
 
 	def leastsq(self, other):
@@ -575,9 +582,14 @@ class Vector():
 			(X - X_)/(self.max[0] - self.min[0]) for X in self.components
 		])
 
-		
 	def mae(self, other):
 		"""Returns the Mean Absolute Error between two vectors."""
+		
+		diffs = self.__errdiff__(other, absolute=True)
+		return sum(diffs)/self.dimensions
+		
+	def mbe(self, other):
+		"""Returns the Mean Bias Error between two vectors."""
 		
 		diffs = self.__errdiff__(other)
 		return sum(diffs)/self.dimensions
