@@ -208,7 +208,7 @@ class VectorToolsTester(unittest.TestCase):
 		a = Vector(1, 2, 3)
 		b = Vector(2, 2, 3)
 		
-		expected_lad = -1
+		expected_lad = 1
 		lad = a.leastdev(b)
 		
 		self.assertEqual(expected_lad, lad)
@@ -301,10 +301,19 @@ class VectorToolsTester(unittest.TestCase):
 		a = Vector(1, 2, 3)
 		b = Vector(2, 2, 3)
 		
-		expected_mse = -1/3
-		mse = a.mae(b)
+		expected_mae = 1/3
+		mae = a.mae(b)
 		
-		self.assertEqual(expected_mse, mse)
+		self.assertEqual(expected_mae, mae)
+		
+	def test_mbe(self):
+		a = Vector(1, 2, 3)
+		b = Vector(2, 2, 3)
+		
+		expected_mbe = -1/3
+		mbe = a.mbe(b)
+		
+		self.assertEqual(expected_mbe, mbe)
 		
 	def test_mse(self):
 		a = Vector(1, 2, 3)
