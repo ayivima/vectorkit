@@ -37,6 +37,10 @@ Vector Methods
 
 ``corr`` - Returns the correlation of two vectors
 
+``cosinesim`` - Returns the cosine similarity between two vectors
+
+``cost`` - Computes the cost function, under the assumption that one vector is the ground truth and the other is the compared.
+
 ``cov`` - Returns the covariance between two vectors
 
 ``crossmul`` - Returs the cross product of two 3-dimensional vectors
@@ -58,6 +62,8 @@ Vector Methods
 ``leastsq`` - Returns the Least Squares(L2 Norm) of two vectors
 
 ``mae`` -  Returns the mean absolute error between two vectors
+
+``mbe`` - Returns the Mean Bias Error between two vectors
 
 ``magnitude`` - Returns the magnitude of a vector
 
@@ -133,16 +139,16 @@ WORK IN PROGRESS
 
 New Methods (yet to be rolled out in new version)
 -----------
-``cosinesim`` - Returns the cosine similarity between two vectors
-
-``cost`` - Computes the cost function, under the assumption that one vector is the ground truth and the other is the compared.
-
-``mbe`` - Returns the Mean Bias Error
-
 
 
 PYPI VERSION HISTORY
 ====================
+
+0.1.9
+-----
+New methods: ``cosinesim``, ``cost``, ``mbe``
+Fixes: Dimesionality Checks
+
 0.1.8
 -----
 New methods: ``jaccard``, ``leakyrelu``, ``leastdev``, ``leastsq``, ``mae``, ``pararelu``, ``rmse``, ``rsquare``
@@ -156,10 +162,6 @@ Bug fix
 Added new methods: ``corr``, ``cov``, ``mse``, ``relu``, ``sigmoid``, ``softmax``, ``tanh``
 
 Changing method names ``extend`` and ``extended`` to ``pad`` and ``padded`` respectively.
-
-0.1.4
------
-Added functionality
 
 0.1.3
 -----
