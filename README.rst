@@ -133,7 +133,12 @@ WORK IN PROGRESS
 
 New Methods (yet to be rolled out in new version)
 -----------
-``cosinesim`` - Returns the cosine similarity between two vectors 
+``cosinesim`` - Returns the cosine similarity between two vectors
+
+``cost`` - Computes the cost function, under the assumption that one vector is the ground truth and the other is the compared.
+
+``mbe`` - Returns the Mean Bias Error
+
 
 
 PYPI VERSION HISTORY
