@@ -114,6 +114,15 @@ class VectorToolsTester(unittest.TestCase):
 		
 		self.assertEqual(expected_cosinesim, cosinesim)
 
+	def test_cost_function(self):
+		a = Vector(1, 2, 3)
+		b = Vector(0.5, 1, 1.5)
+		
+		cost = a.cost(b)
+		expected_cost = 3.5/6
+		
+		self.assertEqual(expected_cost, cost)
+
 	def test_cov(self):
 		a = Vector(2, 3, 5)
 		b = Vector(6, 5, 4)
