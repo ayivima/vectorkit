@@ -92,7 +92,9 @@ class Vector():
 		their respective standard deviations.
 		
 		"""
-
+		
+		self.__isequaldim__(other)
+		
 		x = self.components
 		y = other.components
 		x_ = self.mean()
@@ -185,6 +187,12 @@ class Vector():
 	def __hash__(self):
 		return hash(self.components)
 
+	def __isequaldim__(self, other):
+		if self.dimensions != other.dimensions:
+			raise ValueError(
+				"Vectors do not have the same dimensions"
+			)
+
 	def __len__(self):
 		return self.dimensions
 
@@ -227,7 +235,7 @@ class Vector():
 		elif isinstance(other, Vector):
 			return self.dotmul(other)
 		else:
-			raise ValueError(
+			raise TypeError(
 				"Type mismatch! You cannot multiply"
 				" a <Vector> and {}.".format(type(other))
 			)
@@ -277,7 +285,7 @@ class Vector():
 			raise TypeError(
 				"Value to be inserted must be a number"
 			)
-
+			
 	def __std__(self):
 		"""Returns the standard deviation of the components of a Vector."""
 
@@ -375,10 +383,29 @@ class Vector():
 	def cosinesim(self, other):
 		"""Returns the cosine similarity between two vectors"""
 		
+		# check if vectors have equal dimensions
+		self.__isequaldim__(other)
+		
 		dot = self.dotmul(other)
 		mag_product = self.magnitude() * other.magnitude()
 
 		return dot/mag_product
+
+	def cost(self, other):
+		"""The cost function on two vectors, assuming the second vector 
+		compared to the first vector which is the groud truth.
+		"""
+		
+		# check if vectors have equal dimensions
+		self.__isequaldim__(other)
+		
+		diffs = self.__errdiff__(other)
+		
+		sum_diffs = 0
+		for diff in diffs:
+			sum_diffs += pow(diff, 2)
+			
+		return sum_diffs/(2 * self.dimensions)
 
 	def crossmul(self, other):
 		"""Returns the cross product of two vectors in 3-D space."""
@@ -456,13 +483,29 @@ class Vector():
 			)
 
 	def ediv(self, other):
-		"""Performs element wise division on two vectors"""
+		"""Performs element-wise division on two vectors"""
+		
+		# check if vectors have equal dimensions
+		self.__isequaldim__(other)
 		
 		self_comps = self.components
 		other_comps = other.components
 		
 		return Vector(
 			[x / y for x, y in zip(self_comps, other_comps)]
+		)
+		
+	def emul(self, other):
+		"""Performs element-wise multiplication on two vectors"""
+		
+		# check if vectors have equal dimensions
+		self.__isequaldim__(other)
+		
+		self_comps = self.components
+		other_comps = other.components
+		
+		return Vector(
+			[x * y for x, y in zip(self_comps, other_comps)]
 		)
 
 	def insert(self, index, value):
@@ -723,6 +766,9 @@ class Vector():
 	def rsquare(self, other):
 		"""Returns the R-Square Score for two compared vectors"""
 		
+		# check if vectors have equal dimensions
+		self.__isequaldim__(other)
+		
 		sum_sq_mean_diff = 0
 
 		for index in range(self.dimensions):
@@ -801,7 +847,7 @@ class Vector():
 			])
 		else:
 			raise ValueError(
-				"Second other must be a scalar"
+				"The multiplier must be a scalar"
 			)
 
 	def softmax(self):
@@ -947,7 +993,7 @@ def isovector(component, dimension):
 			[component for i in range(dimension)]
 		)
 	else:
-		raise ValueError(
+		raise TypeError(
 			"first argument <number> must be a number"
 		)
 
