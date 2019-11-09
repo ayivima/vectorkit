@@ -147,7 +147,8 @@ PYPI VERSION HISTORY
 0.1.9
 -----
 New methods: ``cosinesim``, ``cost``, ``mbe``
-Fixes: Dimesionality Checks
+
+Fixes: Dimensionality Checks
 
 0.1.8
 -----
