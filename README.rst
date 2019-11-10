@@ -51,6 +51,10 @@ Vector Methods
 
 ``dotmul`` - Returns the dot product between two vectors
 
+``ediv`` - Returns the element-wise quotient of two vectors
+
+``emul`` - Returns the element-wise product of two vectors
+
 ``insert`` - Inserts a new component at a specified index
 
 ``jaccard`` - Returns the jaccard similarity between two vectors
@@ -148,7 +152,7 @@ PYPI VERSION HISTORY(MAJOR UPDATES)
 
 0.1.9
 -----
-New methods: ``cosinesim``, ``cost``, ``mbe``
+New methods: ``cosinesim``, ``cost``, ``mbe``, ``emul``, ``ediv``
 
 Fixes: Dimensionality Checks
 
