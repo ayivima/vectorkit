@@ -1,7 +1,7 @@
 VECTOR KIT
 ==========
 
-Vectorkit is part of a series of python implementations of mathematical concepts of AI from the scratch. 
+Vectorkit is part of a series of python implementations of mathematical concepts of AI from the scratch. Even though it gets packaged to pypi, it is a work in progress, still in alpha, will undergo a lot of changes, and not (conciously) optimized for large scale computation.
 
 .. image:: https://raw.githubusercontent.com/ayivima/vectorkit/master/img/shell_img.png
 
@@ -43,7 +43,7 @@ Vector Methods
 
 ``cov`` - Returns the covariance between two vectors
 
-``crossmul`` - Returs the cross product of two 3-dimensional vectors
+``crossmul`` - Returns the cross product of two 3-dimensional vectors
 
 ``describe`` - Returns a description of a vector, including its dimensions and memory size
 
@@ -140,8 +140,10 @@ WORK IN PROGRESS
 New Methods (yet to be rolled out in new version)
 -----------
 
+**...
 
-PYPI VERSION HISTORY
+
+PYPI VERSION HISTORY(MAJOR UPDATES)
 ====================
 
 0.1.9
