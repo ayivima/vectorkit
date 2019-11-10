@@ -10,7 +10,7 @@ from math import pow, sqrt, floor, inf, exp
 
 
 __name__ = "Vectortools"
-__version__ = "0.1.9"
+__version__ = "0.2.0"
 __author__ = "Victor Mawusi Ayi <ayivima@hotmail.com>"
 
 
@@ -20,14 +20,14 @@ class Vector():
 
 		if len(args) == 1:
 			param = args[0]
-			if type(param) in (list, tuple, range):
+			if type(param) in (list, tuple, range, set):
 				args = param
 			elif type(param)==dict:
 				args = param.values()
 			elif type(param) in (int, float):
 				pass
 			else:
-				raise ValueError(
+				raise TypeError(
 					"Type passed to Vector must be "
 					"list, tuple, dict, int or float"
 				)
@@ -52,8 +52,8 @@ class Vector():
 
 				vecsum += val
 
-			except ValueError:
-				raise ValueError(
+			except TypeError:
+				raise TypeError(
 					"Value '{}' is not a number. "
 					"Vector components must be numbers".format(val)
 				)
@@ -84,13 +84,16 @@ class Vector():
 				"Addends must be of the same <Vector> type"
 			)
 
+	def __isvector__(self, other):		
+		return isinstance(other, Vector)
+		
 	def __contains__(self, number):
 		return True if number in self.components else False
 
 	def __covcalcs__(self, other):
 		"""Returns the covariance between two vectors, and 
 		their respective standard deviations.
-		
+
 		"""
 		
 		self.__isequaldim__(other)
@@ -114,7 +117,7 @@ class Vector():
 		)
 
 	def __describe__(self):
-		"""Returns a statement of the Vector's dimension."""
+		"""Returns a statement of the Vector's dimensions."""
 
 		components_str = ", ".join(
 			[str(x) for x in self.components]
@@ -158,6 +161,12 @@ class Vector():
 	
 	def __errdiff__(self, other, absolute=False):
 		
+		if not isinstance(other, Vector):
+			raise TypeError(
+				"This requires two Vectors. A {} "
+				"is not valid".format(type(other))
+			)
+		
 		# Vectors must be of same length
 		if self.dimensions==other.dimensions:
 			diff = []
@@ -179,6 +188,9 @@ class Vector():
 			)
 		
 	def __eq__(self, other):
+		if not isinstance(other, Vector):
+			return False
+
 		return self.components==other.components
 
 	def __getitem__(self, key):
@@ -188,6 +200,8 @@ class Vector():
 		return hash(self.components)
 
 	def __isequaldim__(self, other):
+		"""Checks if the vectors have equal dimensions."""
+
 		if self.dimensions != other.dimensions:
 			raise ValueError(
 				"Vectors do not have the same dimensions"
@@ -322,28 +336,42 @@ class Vector():
 		return self.__add__(other)
 
 	def append(self, value):
-		"""Appends a component to a Vector."""
+		"""Appends a component or a sequence of components to a Vector."""
 
+		def updateminmaxsum(value, index_):
+			# update the minimum, maximum components, and sum 
+			# after appending new value(s)
+			self.sum += value
+
+			if self.min[0] > value:
+				self.min = value, index_
+
+			if self.max[0] < value:
+				self.max = value, index_
+		
+		index_ = self.dimensions
+		
 		if type(value) in (int, float):
 			value = float(value)			
 			self.components.append(value)
+			updateminmaxsum(value, index_)
 			
-			self.sum += value
-			
-			index = self.dimensions
-			if self.min[0] > value: self.min = value, index
-			if self.max[0] < value: self.max = value, index
-			
-		elif type(value) in (tuple, list):
+		elif type(value) in (tuple, list, set, range):
+			index_ = self.dimensions
 			for i in value:
-				if type(i) in (int, float): 
-					self.append(float(i))
+				if type(i) in (int, float):
+					if type(i)==int:
+						i = float(i)
+
+					self.components.append(i)
+					updateminmaxsum(i, index_)
+					index_ += 1
 				else:
-					raise ValueError(
+					raise TypeError(
 						"Argument must be an integer or float"
 					)
 		else:
-			raise ValueError(
+			raise TypeError(
 				"Argument must be an integer, float, tuple, list"
 			)
 
@@ -478,7 +506,7 @@ class Vector():
 
 			return dmul
 		else:
-			raise ValueError(
+			raise TypeError(
 				"dotmul() requires only <Vector> types"
 			)
 
@@ -807,7 +835,7 @@ class Vector():
 				component/scalar for component in self.components
 			])
 		else:
-			raise ValueError(
+			raise TypeError(
 				"Second other must be a scalar"
 			)
 
@@ -846,7 +874,7 @@ class Vector():
 				component * scalar for component in self.components
 			])
 		else:
-			raise ValueError(
+			raise TypeError(
 				"The multiplier must be a scalar"
 			)
 
