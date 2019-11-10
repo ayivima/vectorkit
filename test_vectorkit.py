@@ -9,7 +9,7 @@ from vectorkit import Vector, isovector, randvec
 
 
 __name__ = "VectorkitTester"
-__version__ = "0.1.9"
+__version__ = "0.2.0"
 __author__ = "Victor Mawusi Ayi <ayivima@hotmail.com>"
 
 
@@ -22,6 +22,9 @@ z = Vector(1,2,3)
 class VectorToolsTester(unittest.TestCase):
 
 	def test_addition(self):
+		x = Vector(1,2)
+		y = Vector(2,1)
+	
 		expected_sum = Vector(3,3)
 
 		# Test addition using (+) operator
@@ -39,11 +42,11 @@ class VectorToolsTester(unittest.TestCase):
 
 		a.append(4)
 		b.append((4,5))
-		c.append([4,5])
+		c.append([4,0.5])
 
 		self.assertEqual(Vector(1,2,3,4), a)
 		self.assertEqual(Vector(1,2,3,4,5), b)
-		self.assertEqual(Vector(1,2,3,4,5), c)
+		self.assertEqual(Vector(1,2,3,4,0.5), c)
 
 	def test_chaining_valid_operations(self):
 		a = Vector(1,2,3)
@@ -78,6 +81,8 @@ class VectorToolsTester(unittest.TestCase):
 		self.assertEqual(chain4_expected_result, chain4)
 
 	def test_component_membership(self):
+		x = Vector(1,2)
+
 		self.assertTrue(2 in x)
 		self.assertFalse(4 in x)
 		
@@ -141,6 +146,8 @@ class VectorToolsTester(unittest.TestCase):
 		self.assertEqual(expected_cross_product, a.crossmul(b))
 
 	def test_describe(self):
+		x = Vector(1,2)
+
 		expected_x_description = (
 			"A 2-dimensional vector. "
 			"[ Memory Size 190 bytes ]"
@@ -150,6 +157,9 @@ class VectorToolsTester(unittest.TestCase):
 		self.assertEqual(expected_x_description, actual_x_description)
 
 	def test_dimensions(self):
+		x = Vector(1,2)
+		z = Vector(1,2,3)
+	
 		expected_x_dimensions = 2
 		expected_z_dimensions = 3
 
@@ -157,15 +167,40 @@ class VectorToolsTester(unittest.TestCase):
 		self.assertEqual(expected_z_dimensions, z.dimensions)
 
 	def test_distance(self):
+		x = Vector(1,2)
+		y = Vector(2,1)
+
 		expected_distance_x_y = sqrt(2)
 		self.assertEqual(expected_distance_x_y, x.distance(y))
 
 	def test_dot_product(self):
+		x = Vector(1,2)
+		y = Vector(2,1)
+		z = Vector(1,2,3)
+		
 		expected_dot_product_x_y = 4
 		expected_dot_product_x_z = 5
 
 		self.assertEqual(expected_dot_product_x_y, x.dotmul(y))
 		self.assertEqual(expected_dot_product_x_z, x.dotmul(z))
+	
+	def test_element_wise_multiplication(self):
+		x = Vector(1,2)
+		y = Vector(2,1)
+		
+		expected_xy = Vector(2, 2)
+		xy = x.emul(y)
+		
+		self.assertEqual(expected_xy, xy)
+
+	def test_element_wise_division(self):
+		x = Vector(1,2)
+		y = Vector(2,1)
+		
+		expected_x_div_y = Vector(0.5, 2)
+		x_div_y = x.ediv(y)
+		
+		self.assertEqual(expected_x_div_y, x_div_y)
 
 	def test_equality(self):
 		self.assertTrue(Vector(1,3,4)==Vector(1,3,4))
@@ -232,8 +267,8 @@ class VectorToolsTester(unittest.TestCase):
 		self.assertEqual(expected_lsq, lsq)
 
 	def test_vector_concatenation(self):
-		# x = Vector(1,2)
-		# y = Vector(2,1)
+		x = Vector(1,2)
+		y = Vector(2,1)
 		expected_result_vector = Vector(1,2,2,1)
 
 		self.assertEqual(expected_result_vector, x.concat(y))
@@ -566,7 +601,7 @@ class VectorToolsTester(unittest.TestCase):
 		self.assertEqual(expected_max, a.max)
 		self.assertEqual(expected_sum, a.sum)
 		
-		# after appending
+		# after appending a scalar
 		a.append(-2)
 		expected_min = (-2.0, 4)
 		expected_max = (5.0, 3)
@@ -578,7 +613,6 @@ class VectorToolsTester(unittest.TestCase):
 
 		# after inserting a value
 		a.insert(2, -20)
-
 		expected_min = (-20.0, 2)
 		expected_max = (5.0, 4)
 		expected_sum = -9
@@ -588,7 +622,6 @@ class VectorToolsTester(unittest.TestCase):
 		
 		# after inserting a value at min position
 		a.insert(2, -21)
-
 		expected_min = (-21.0, 2)
 		expected_max = (5.0, 5)
 		expected_sum = -30
@@ -598,10 +631,19 @@ class VectorToolsTester(unittest.TestCase):
 		
 		# after inserting a value at max position
 		a.insert(5, 10)
-
 		expected_min = (-21.0, 2)
 		expected_max = (10, 5)
 		expected_sum = -20
+		self.assertEqual(expected_min, a.min)
+		self.assertEqual(expected_max, a.max)
+		self.assertEqual(expected_sum, a.sum)
+		
+		# after appending a sequence
+		a.append([-22, 20, 1])
+		expected_min = (-22.0, 8)
+		expected_max = (20.0, 9)
+		expected_sum = -21.0
+
 		self.assertEqual(expected_min, a.min)
 		self.assertEqual(expected_max, a.max)
 		self.assertEqual(expected_sum, a.sum)
