@@ -39,7 +39,7 @@ Vector Methods
 
 ``cosinesim`` - Returns the cosine similarity between two vectors
 
-``cost`` - Computes the cost function, under the assumption that one vector is the ground truth and the other is the compared.
+``cost`` - Computes the squared error cost function, under the assumption that one vector is the ground truth and the other is the compared.
 
 ``cov`` - Returns the covariance between two vectors
 
