@@ -388,15 +388,17 @@ class VectorToolsTester(unittest.TestCase):
 		# test regular minmaxab
 		expected_return = Vector(2, 2.5, 3)
 		self.assertEqual(expected_return, X.minmax(2, 3))
+		self.assertEqual(expected_return, X.normalize("minmax"))
 		
 		# test minmaxmean
 		expected_return = Vector(-0.5, 0, 0.5)
 		self.assertEqual(expected_return, X.minmaxmean())
+		self.assertEqual(expected_return, X.normalize("minmaxmean"))
 
 		# test standard/zscore normalisation
 		expected_return = Vector(-1.224744871391589, 0.0, 1.224744871391589)
 		self.assertEqual(expected_return, X.stdnorm())
-		self.assertEqual(expected_return, X.normalized())
+		self.assertEqual(expected_return, X.normalize("zscore"))
 
 		# test scaling to unit length
 		X = Vector(4, -9)
