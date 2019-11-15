@@ -645,12 +645,12 @@ class Vector():
 		])
 
 	def minmaxmean(self):
-		"""Normalizes vector using the mean."""
+		"""Normalizes vector using the mean feature scaling."""
 
-		X_ = self.__mean__()
+		mean = self.__mean__()
 
 		return Vector([
-			(X - X_)/(self.max[0] - self.min[0]) for X in self.components
+			(X - mean)/(self.max[0] - self.min[0]) for X in self.components
 		])
 
 	def mae(self, other):
@@ -676,8 +676,29 @@ class Vector():
 			
 		return sum_diffs/self.dimensions
 
-	def normalized(self):
-		return self.stdnorm()
+	def normalize(self, mode="zscore"):
+		"""Returns a normalized variant of this vector using a specified method.
+
+		Parameters
+		----------
+		mode: The method to be used. Default is "zcore"
+			"zcore" - uses z-core feature scaling
+			"minmax" - uses the minimum and maximum feature scaling
+			"minmaxmean" - uses the mean, minimum and maximum feature scaling
+		"""
+		
+		if mode not in ("zscore", "minmax", "minmaxmean"):
+			raise ValueError(
+				"{} is not a valid mode".format(mode)
+			)
+		
+		modes = {
+			"zscore":self.stdnorm(),
+			"minmax":self.minmax(),
+			"minmaxmean":self.minmaxmean()
+		}
+		
+		return modes.get(mode)
 
 	def pad(self, desired_length, extension_component=0):
 		"""Extends a Vector with several of a specified component.
