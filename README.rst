@@ -79,8 +79,6 @@ Vector Methods
 
 ``mse`` - Returns the mean square error of two vectors
 
-``normalize`` - Returns a variant of a vector which has been normalized using the z-score
-
 ``pad`` - Appends zeroes to vectors to a specified length, in-place
 
 ``padded`` - Returns a new vector with zero appended to it to a specified length
@@ -113,7 +111,7 @@ Vector Methods
 
 ``std`` - Returns the standard deviation of the components of a vector
 
-``stdnorm`` - Returns a variant of a vector which has been normalized using the z-score or standard deviation
+``stdnorm`` - Returns a variant of a vector which has been normalized using the z-score
 
 ``subtract`` - Returns a new vector, which is the result of the subtraction of one vector from another
 
@@ -141,10 +139,12 @@ Others
 WORK IN PROGRESS
 ================
 
-New Methods (yet to be rolled out in new version)
+New Methods/Changes (yet to be rolled out in new version)
 -----------
 
-**...
+Replacing ``normalized`` with ``normalize``
+
+``normalize`` - Returns a variant of a vector normalized by one of Z-score, Min Max, or Mean Max feature scalings.
 
 
 PYPI VERSION HISTORY(MAJOR UPDATES)
