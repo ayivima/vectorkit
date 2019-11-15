@@ -796,16 +796,15 @@ class Vector():
 		
 		# check if vectors have equal dimensions
 		self.__isequaldim__(other)
-		
+
+		mean = self.mean()
 		sum_sq_mean_diff = 0
 
 		for index in range(self.dimensions):
-			error_ = self.components[index] - self.mean()
+			error_ = self.components[index] - mean
 			sum_sq_mean_diff += pow(error_, 2)
 
-		meanerr = sum_sq_mean_diff/self.dimensions
-
-		return 1 - (self.mse(other)/meanerr)
+		return 1 - (self.leastsq(other)/sum_sq_mean_diff)
 
 	def reverse(self):
 		"""Sets a Vector in the opposite direction."""
@@ -917,9 +916,11 @@ class Vector():
 				[(x - mean)/std for x in self.components]
 			)
 		else:
-			if self.components[0] in (-1, 0, 1):
+			if self.components[0] <= 1 and self.components[0] >= -1:
+				# if components are the same and within range -1 to 1
 				return self
 			else:
+				# if components are the same and not within range -1 to 1
 				return Vector(
 					[1 for _ in range(self.dimensions)]
 				)
