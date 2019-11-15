@@ -79,7 +79,7 @@ Vector Methods
 
 ``mse`` - Returns the mean square error of two vectors
 
-``normalize`` - Returns a variant of a vector which has been normalized using the z-score or standard deviation
+``normalize`` - Returns a variant of a vector which has been normalized using the z-score
 
 ``pad`` - Appends zeroes to vectors to a specified length, in-place
 
