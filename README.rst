@@ -1,7 +1,7 @@
 VECTOR KIT
 ==========
 
-Vectorkit is part of a series of python implementations of mathematical concepts of AI from the scratch. Even though it gets packaged to pypi, it is a work in progress, still in alpha, will undergo a lot of changes, and not (conciously) optimized for large scale computation.
+Vectorkit is part of a series of python implementations of mathematical concepts of AI from the scratch. It is a pet project. Even though it gets packaged to pypi, it is a work in progress, will undergo a lot of changes, and not (conciously) optimized for large scale computation.
 
 .. image:: https://raw.githubusercontent.com/ayivima/vectorkit/master/img/shell_img.png
 
@@ -147,8 +147,8 @@ Replacing ``normalized`` with ``normalize``
 ``normalize`` - Returns a variant of a vector normalized by one of Z-score, Min Max, or Mean Max feature scalings.
 
 
-PYPI VERSION HISTORY(MAJOR UPDATES)
-====================
+PYPI VERSION
+============
 
 0.1.9
 -----
@@ -156,27 +156,5 @@ New methods: ``cosinesim``, ``cost``, ``mbe``, ``emul``, ``ediv``
 
 Fixes: Dimensionality Checks
 
-0.1.8
------
-New methods: ``jaccard``, ``leakyrelu``, ``leastdev``, ``leastsq``, ``mae``, ``pararelu``, ``rmse``, ``rsquare``
 
-0.1.6
------
-Bug fix
-
-0.1.5
------
-Added new methods: ``corr``, ``cov``, ``mse``, ``relu``, ``sigmoid``, ``softmax``, ``tanh``
-
-Changing method names ``extend`` and ``extended`` to ``pad`` and ``padded`` respectively.
-
-0.1.3
------
-First Tested Version
-
-
-AUTHOR
-======
-
-Victor Mawusi Ayi <ayivima@hotmail.com>
 
