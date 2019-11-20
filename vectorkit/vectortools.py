@@ -76,7 +76,7 @@ class Vector():
 		if isinstance(other, Vector):
 			a, b = self.__dress__(other)
 			magnitudes = [sum(pair) for pair in zip(a, b)]
-			result = Vector(*magnitudes)
+			result = Vector(magnitudes)
 
 			return result
 		else:
@@ -581,6 +581,13 @@ class Vector():
 			)
 
 		return round(jindex/self.dimensions, 2)
+	
+	def join(self, separator=" "):
+		"""Returns a string which is a concatenation of components of a vector"""
+
+		return " ".join(
+			[str(val) for val in self.components]
+		)
 
 	def leakyrelu(self):
 		"""Passes a vector through the Leaky Rectified Linear Unit Function."""
@@ -789,6 +796,11 @@ class Vector():
 			raise ValueError(
 				"Index argument must be a positive integer"
 			)
+	
+	def pow(self, exponent):
+		"""Raises the components of a Vector to given power"""
+		
+		return self.__pow__(exponent)
 
 	def relu(self, coef=0):
 		"""Passes a vector through Rectified Linear Unit Function.
