@@ -1,7 +1,7 @@
 VECTOR KIT
 ==========
 
-Vectorkit is part of a series of python implementations of mathematical concepts of AI from the scratch. It is a pet project. Even though it gets packaged to pypi, it is a work in progress, will undergo a lot of changes, and not (conciously) optimized for large scale computation.
+Vectorkit is part of a series of python implementations of mathematical concepts of AI from the scratch. It is a pet project. Even though it gets packaged to pypi, it is a work in progress, will undergo a lot of changes, and not (conciously) optimized for large scale computation. You can play with its javascript counterpart in the browser at https://vectorkitweb.netlify.com/. Note that vectorkit web has just began and is no where near perfect :).
 
 .. image:: https://raw.githubusercontent.com/ayivima/vectorkit/master/img/shell_img.png
 
@@ -145,6 +145,10 @@ New Methods/Changes (yet to be rolled out in new version)
 Replacing ``normalized`` with ``normalize``
 
 ``normalize`` - Returns a variant of a vector normalized by one of Z-score, Min Max, or Mean Max feature scalings.
+
+``pow`` - raise components of a vector to a given power
+
+``join`` - concatenate components of a vector into a string
 
 
 PYPI VERSION
