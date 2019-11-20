@@ -24,7 +24,7 @@ class VectorToolsTester(unittest.TestCase):
 	def test_addition(self):
 		x = Vector(1,2)
 		y = Vector(2,1)
-	
+
 		expected_sum = Vector(3,3)
 
 		# Test addition using (+) operator
@@ -247,6 +247,14 @@ class VectorToolsTester(unittest.TestCase):
 		jaccard = a.jaccard(b)
 		
 		self.assertEqual(expected_jaccard, jaccard)
+	
+	def test_join(self):
+		a = Vector(1, 2, 3)
+		
+		expected_join = "1.0 2.0 3.0"
+		actual_join = a.join()
+		
+		self.assertEqual(expected_join, actual_join)
 
 	def test_least_absolute_deviations(self):
 		a = Vector(1, 2, 3)
@@ -384,11 +392,12 @@ class VectorToolsTester(unittest.TestCase):
 		# test regular minmax
 		expected_return = Vector(0, 0.5, 1)
 		self.assertEqual(expected_return, X.minmax())
+		self.assertEqual(expected_return, X.normalize("minmax"))
 		
 		# test regular minmaxab
 		expected_return = Vector(2, 2.5, 3)
 		self.assertEqual(expected_return, X.minmax(2, 3))
-		self.assertEqual(expected_return, X.normalize("minmax"))
+		
 		
 		# test minmaxmean
 		expected_return = Vector(-0.5, 0, 0.5)
@@ -420,6 +429,12 @@ class VectorToolsTester(unittest.TestCase):
 
 		expected_b_after_pop = Vector(1,3)
 		self.assertEqual(expected_b_after_pop, b)
+	
+	def test_power(self):
+		a = Vector(1,2,3)
+
+		expected_power = Vector(1, 8, 27)
+		power = a.pow(3)
 
 	def test_randvec(self):
 		a = randvec(5)
