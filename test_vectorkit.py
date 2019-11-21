@@ -239,6 +239,14 @@ class VectorToolsTester(unittest.TestCase):
 		# Test that vector 'b' is preserved
 		self.assertTrue(Vector(1,3)==b)
 
+	def test_flatten(self):
+		x = [Vector(2,3), 5, (3,5), [3,5]]
+
+		y = Vector.flatten(x)
+		expected_y = Vector(2, 3, 5, 3, 5, 3, 5)
+		
+		self.assertEqual(expected_y, y)
+	
 	def test_jaccard(self):
 		a = Vector(1, 2, 3, 4)
 		b = Vector(1, 2, 4, 4)
@@ -436,27 +444,31 @@ class VectorToolsTester(unittest.TestCase):
 		expected_power = Vector(1, 8, 27)
 		power = a.pow(3)
 
+		self.assertEqual(expected_power, power)
+
 	def test_randvec(self):
-		a = randvec(5)
+		a = randvec(5, 2)
+		expected_a = Vector(-5.0, -4.0, 3.0, -3.0, 2.0)
 
 		self.assertEqual(5, a.dimensions)
+		self.assertEqual(expected_a, a)
 	
 	def test_rmse(self):
 		a = Vector(1, 2, 3)
 		b = Vector(2, 2, 3)
-		
+
 		expected_rmse = sqrt(1/3)
 		rmse = a.rmse(b)
-		
+
 		self.assertEqual(expected_rmse, rmse)
 
 	def test_rsquare(self):
 		a = Vector(1, 2, 3)
 		b = Vector(2, 2, 3)
-		
+
 		expected_r2 = 1 - ((1/3)/(2/3))
 		r2 = a.rsquare(b)
-		
+
 		self.assertEqual(expected_r2, r2)
 		
 	def test_relu(self):
@@ -466,12 +478,12 @@ class VectorToolsTester(unittest.TestCase):
 		expected_relu = Vector(0, 0, 0, 1)
 
 		self.assertEqual(b, expected_relu)
-		
+
 		# Test positive values
 		a = Vector(1, 2, 3, 1)
 		b = a.relu()
 		expected_relu = Vector(1, 2, 3, 1)
-		
+
 		self.assertEqual(b, expected_relu)
 		
 	def test_relu_leaky(self):
@@ -664,6 +676,16 @@ class VectorToolsTester(unittest.TestCase):
 		self.assertEqual(expected_min, a.min)
 		self.assertEqual(expected_max, a.max)
 		self.assertEqual(expected_sum, a.sum)
+
+	def test_sum_of_vectors(self):
+		a = Vector(1,1,1)
+		b = Vector(2,2,2)
+		c = Vector(3,3,3)
+		
+		expected_sum = Vector(6,6,6)
+		sum = Vector.sum([a, b, c])
+		
+		self.assertEqual(expected_sum, sum)
 	
 	def test_tanh(self):
 		x = Vector(1,2,3)
@@ -716,4 +738,3 @@ class VectorToolsTester(unittest.TestCase):
 
 if __name__ == "VectorkitTester":
 	unittest.main(verbosity=2)
-	
