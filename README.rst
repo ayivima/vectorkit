@@ -150,6 +150,10 @@ Replacing ``normalized`` with ``normalize``
 
 ``join`` - concatenate components of a vector into a string
 
+``flatten`` - Converts a sequence of any of list, tuple, set, int, float into a Vector
+
+``sum`` - Performs vector addition on a sequence of vectors 
+
 
 PYPI VERSION
 ============
