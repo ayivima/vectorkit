@@ -1024,6 +1024,58 @@ class Vector():
 				self.__repr__(True), other.subtract(self).__repr__(True)
 			)
 		)
+	
+	@staticmethod
+	def flatten(args):
+		"""Convert a sequence of valid types into a single Vector.
+		
+		Arguments
+		---------
+		args: A list, tuple, or set of items. Items must be any of lists, 
+		      tuples, sets, vectors, or numbers
+		"""
+
+		new_components = []
+
+		for arg in args:
+			if isinstance(arg, Vector):
+				new_components += arg.components
+			elif isinstance(arg, list):
+				new_components += arg
+			elif isinstance(arg, (int, float)):
+				new_components.append(arg)
+			elif isinstance(arg, (tuple, range, set)):
+				new_components += list(arg)
+			else:
+				raise TypeError(
+					"Arguments must be any of lists, tuples, sets, vectors, or numbers"
+				)
+		
+		return Vector(new_components)
+	
+	@staticmethod
+	def sum(args):
+		"""Add multiple Vectors.
+		
+		Arguments
+		---------
+		args: a list, tuple, or set of Vectors
+		"""
+
+		vecsum = args[0]
+		args = args[1:]
+
+		for arg in args:
+			if isinstance(arg, Vector):
+				vecsum = vecsum.add(arg)
+			else:
+				raise TypeError(
+					"Arguments must be any of lists, tuples, sets, vectors, or numbers"
+				)
+		
+		return vecsum
+				
+				
 		 
 
 def isovector(component, dimension):
@@ -1059,14 +1111,22 @@ def isovector(component, dimension):
 			"first argument <number> must be a number"
 		)
 
-def randvec(dimensions):
+def randvec(dimensions, seed=None):
 	"""Generates a random Vector.
 	
 	Parameters:
 	-----------
 	
-	dimensions : the number of components of the resultant vector
+	dimensions : the number of components of the resultant vector.
+
+	seed : a seed value for generation of numbers. Default is None.
+	
 	"""
+	
+	if seed==None:
+		pass
+	else:
+		random.seed(seed)
 	
 	return Vector(
 		random.sample(
