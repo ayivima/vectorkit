@@ -37,6 +37,8 @@ class Vector():
 		maxcomp = (-inf, inf)
 		vecsum = 0
 		
+		self.dimensions = 0
+		
 		for index in range(len(args)):
 			val = args[index]
 			try:
@@ -51,6 +53,7 @@ class Vector():
 					pass
 
 				vecsum += val
+				self.dimensions += 1
 
 			except TypeError:
 				raise TypeError(
@@ -59,8 +62,10 @@ class Vector():
 				)
 
 		self.components = list(args)
-		self.dimensions = self.__dimensions__()
 
+
+		# Force minimum vector length to be 2
+		# if there's only one component add 0 as second component
 		if self.dimensions == 1:
 			mincomp = (0, 1)
 			self.pad(2, 0)
@@ -342,6 +347,7 @@ class Vector():
 			# update the minimum, maximum components, and sum 
 			# after appending new value(s)
 			self.sum += value
+			self.dimensions += 1
 
 			if self.min[0] > value:
 				self.min = value, index_
@@ -374,8 +380,6 @@ class Vector():
 			raise TypeError(
 				"Argument must be an integer, float, tuple, list"
 			)
-
-		self.dimensions = self.__dimensions__()
 
 	def concat(self, other):
 		"""Concatenate two Vectors."""
@@ -549,7 +553,7 @@ class Vector():
 
 		if type(value) in (int, float):
 			self.components.insert(index, value)
-			self.dimensions = self.__dimensions__()
+			self.dimensions += 1
 			
 			self.sum = self.sum + value
 			if self.min[0] > value:
@@ -783,7 +787,7 @@ class Vector():
 
 			val = self.components.pop(index)
 			self.sum = self.sum - val
-			self.dimensions = self.__dimensions__()
+			self.dimensions -= 1
 
 			if val in (self.min[0], self.max[0]):
 				sorted_comp = sorted(self.components)
