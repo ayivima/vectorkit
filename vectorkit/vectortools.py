@@ -93,12 +93,21 @@ class Vector():
 		return isinstance(other, Vector)
 		
 	def __contains__(self, number):
+		"""Checks if a given number is a component of a Vector.
+		
+		Arguments
+		---------
+		:number: the number which component membership is to be checked.
+		"""
 		return True if number in self.components else False
 
 	def __covcalcs__(self, other):
 		"""Returns the covariance between two vectors, and 
 		their respective standard deviations.
 
+                Arguments
+		----------
+		:other: a Vector
 		"""
 		
 		self.__isequaldim__(other)
@@ -122,7 +131,7 @@ class Vector():
 		)
 
 	def __describe__(self):
-		"""Returns a statement of the Vector's dimensions."""
+		"""Returns a statement of the Vector's dimensions"""
 
 		components_str = ", ".join(
 			[str(x) for x in self.components]
@@ -136,19 +145,19 @@ class Vector():
 		)
 
 	def __dimensions__(self):
-		"""Returns an integer representing a Vector's number of dimensions."""
+		"""Returns an integer representing a Vector's number of dimensions"""
 
 		return len(self.components)
 
 	def __dress__(self, other, extension_component=0):
-		"""Compares Vectors and pads the Vector with lowest number of dimensions.
+		"""Compares Vectors and pads the Vector with lowest number of dimensions with a given component.
 
-		Parameters
-		----------
+		Arguments
+		---------
 		other : the other Vector
 
 		extension_component: the number to use to pad the Vector 
-							with lowest dimensions. Defaults to 0.
+				     with lowest dimensions. Defaults to 0.
 		"""
 
 		if self.dimensions < other.dimensions:
@@ -224,9 +233,9 @@ class Vector():
 		"""Returns the memory size of a Vector in bytes.
 		
 		Arguments:
-		
-		stringformat: (Boolean) specifies whether memory size should be 
-		              returned as a string
+		----------
+		:stringformat: (Boolean) specifies whether memory size should be 
+		              returned as a string. Default is False.
 		
 		"""
 
@@ -306,7 +315,7 @@ class Vector():
 			)
 			
 	def __std__(self):
-		"""Returns the standard deviation of the components of a Vector."""
+		"""Returns the standard deviation of the components of a Vector"""
 
 		mean = self.__mean__()
 		component_count = self.dimensions
@@ -336,12 +345,23 @@ class Vector():
 			)
 
 	def add(self, other):
-		"""Adds two Vectors."""
+		"""Adds two Vectors.
+		
+		Arguments
+		----------
+		:other: a Vector
+		"""
 
 		return self.__add__(other)
 
 	def append(self, value):
-		"""Appends a component or a sequence of components to a Vector."""
+		"""Appends a component or a sequence of components to a Vector.
+		
+		Arguments
+		----------
+		:value: component to be added to a Vector. 
+		        A valid value must be of type int or float.
+		"""
 
 		def updateminmaxsum(value, index_):
 			# update the minimum, maximum components, and sum 
@@ -382,7 +402,12 @@ class Vector():
 			)
 
 	def concat(self, other):
-		"""Concatenate two Vectors."""
+		"""Concatenate two Vectors.
+		
+		Aurguments
+		----------
+		:other: a Vector		
+		"""
 
 		if isinstance(other, Vector):
 			return Vector(self.components + other.components)
@@ -396,8 +421,7 @@ class Vector():
 		
 		Arguments
 		---------
-		
-		Other: the another vector
+		:other: A vector
 		"""
 		
 		cov_, _, _ = self.__covcalcs__(other)
@@ -405,7 +429,12 @@ class Vector():
 		return cov_
 
 	def corr(self, other):
-		"""Returns the correlation between two vectors."""
+		"""Returns the correlation between two vectors.
+		
+		Aurguments
+		----------
+		:other: a Vector
+		"""
 		
 		cov_, x_std, y_std = self.__covcalcs__(other)
 		
@@ -413,7 +442,12 @@ class Vector():
 		return cov_ / (x_std * y_std)
 
 	def cosinesim(self, other):
-		"""Returns the cosine similarity between two vectors"""
+		"""Returns the cosine similarity between two vectors
+		
+		Arguments
+		---------
+		:other: A vector
+		"""
 		
 		# check if vectors have equal dimensions
 		self.__isequaldim__(other)
@@ -426,6 +460,10 @@ class Vector():
 	def cost(self, other):
 		"""The cost function on two vectors, assuming the second vector 
 		compared to the first vector which is the groud truth.
+
+		Arguments
+		---------
+		:other: A vector
 		"""
 		
 		# check if vectors have equal dimensions
@@ -440,7 +478,12 @@ class Vector():
 		return sum_diffs/(2 * self.dimensions)
 
 	def crossmul(self, other):
-		"""Returns the cross product of two vectors in 3-D space."""
+		"""Returns the cross product of two vectors in 3-D space.
+		
+		Arguments
+		---------
+		:other: A vector
+		"""
 
 		if isinstance(other, Vector):
 			if self.dimensions==other.dimensions==3:
@@ -472,9 +515,9 @@ class Vector():
 	def distance(self, other):
 		"""Returns the euclidean distance between two Vectors.
 
-		Aurguments
+		Arguments
 		----------
-		other : the other Vector
+		:other: a Vector
 
 		"""
 
@@ -497,8 +540,7 @@ class Vector():
 
 		Arguments
 		---------
-		
-		other : a Vector
+		:other: a Vector
 		"""
 
 		if isinstance(other, Vector):
@@ -515,7 +557,13 @@ class Vector():
 			)
 
 	def ediv(self, other):
-		"""Performs element-wise division on two vectors"""
+		"""Performs element-wise division on two vectors.
+		
+		Aurguments
+		----------
+		:other: a Vector
+		
+		"""
 		
 		# check if vectors have equal dimensions
 		self.__isequaldim__(other)
@@ -528,7 +576,11 @@ class Vector():
 		)
 		
 	def emul(self, other):
-		"""Performs element-wise multiplication on two vectors"""
+		"""Performs element-wise multiplication on two vectors
+		
+		
+		
+		"""
 		
 		# check if vectors have equal dimensions
 		self.__isequaldim__(other)
@@ -665,19 +717,34 @@ class Vector():
 		])
 
 	def mae(self, other):
-		"""Returns the Mean Absolute Error between two vectors."""
+		"""Returns the Mean Absolute Error between two vectors.
+		
+		Arguments
+		----------
+		:other: a Vector
+		"""
 		
 		diffs = self.__errdiff__(other, absolute=True)
 		return sum(diffs)/self.dimensions
 		
 	def mbe(self, other):
-		"""Returns the Mean Bias Error between two vectors."""
+		"""Returns the Mean Bias Error between two vectors.
+		
+		Arguments
+		----------
+		:other: a Vector
+		"""
 		
 		diffs = self.__errdiff__(other)
 		return sum(diffs)/self.dimensions
 		
 	def mse(self, other):
-		"""Returns the Mean Square Error between two vectors."""
+		"""Returns the Mean Square Error between two vectors.
+		
+		Arguments
+		----------
+		:other: a Vector
+		"""
 		
 		diffs = self.__errdiff__(other)
 		
@@ -761,16 +828,15 @@ class Vector():
 				"All arguments to padded() should be valid positive integers"
 			)
 
-	def pararelu(self, x):
+	def pararelu(self, scalefactor):
 		"""Passes a vector through the Parametric Rectified Linear Unit Function.
 		
-		Parameters
+		Arguments
 		----------
-		
-		x - scaling factor for negative components a vector
+		:scalefactor: scaling factor for negative components a vector
 		"""
 
-		return self.relu(x)
+		return self.relu(scalefactor)
 
 	def pop(self, index=None):
 		"""Deletes a component.
@@ -798,11 +864,16 @@ class Vector():
 
 		else:
 			raise ValueError(
-				"Index argument must be a positive integer"
+				"index argument must be a positive integer"
 			)
 	
 	def pow(self, exponent):
-		"""Raises the components of a Vector to given power"""
+		"""Raises each component of a Vector to given power.
+		
+		Arguments:
+		----------
+		:exponent: the power components should be raised to.
+		"""
 		
 		return self.__pow__(exponent)
 
@@ -812,7 +883,7 @@ class Vector():
 		Parameters
 		----------
 		
-		coef - a value to be used for changing between standard relu, 
+		coef - a value to be used for changing between standard relu(0), 
 		       leaky relu(0.01), and parametric relu.
 		
 		"""
@@ -824,12 +895,22 @@ class Vector():
 		)
 
 	def rmse(self, other):
-		"""Returns the Root Mean Square Error between two vectors"""
+		"""Returns the Root Mean Square Error between two vectors.
+		
+		Arguments:
+		----------
+		:other: a Vector
+		"""
 		
 		return sqrt(self.mse(other))
 		
 	def rsquare(self, other):
-		"""Returns the R-Square Score for two compared vectors"""
+		"""Returns the R-Square Score for two compared vectors.
+		
+		Arguments:
+		----------
+		:other: a Vector
+		"""
 		
 		# check if vectors have equal dimensions
 		self.__isequaldim__(other)
@@ -896,18 +977,17 @@ class Vector():
 			sig(y) for y in self.components
 		])
 
-	def smul(self, scalar):
+	def smul(self, multiplier):
 		"""Returns the product of a scalar multiplication.
 
 		Parameters
 		----------
-		scalar: a number (of int or float type) to multiply vector.
-
+		:multiplier: a number (of int or float type) to multiply through components of a Vector
 		"""
 
-		if type(scalar) in (int, float):
+		if type(multiplier) in (int, float):
 			return Vector([
-				component * scalar for component in self.components
+				component * multiplier for component in self.components
 			])
 		else:
 			raise TypeError(
@@ -915,7 +995,7 @@ class Vector():
 			)
 
 	def softmax(self):
-		"""Passes vector through a softmax function and returns a new vector."""
+		"""Passes vector through a softmax function and returns a new vector"""
 
 		exps = []
 		sum_exp = sum(exps)
@@ -968,7 +1048,6 @@ class Vector():
 		Parameters
 		----------
 		other : a Vector
-
 		"""
 
 		return self.__sub__(other)
@@ -979,10 +1058,9 @@ class Vector():
 
 		Parameters
 		----------
-		start : the beggining index of the selected sequence
+		:start : the beggining index of the selected sub-sequence
 
-		end : the ending index of the selected sequence
-
+		:end : the ending index of the selected sub-sequence
 		"""
 
 		return Vector(self.components[start:end])
@@ -1031,12 +1109,12 @@ class Vector():
 	
 	@staticmethod
 	def flatten(args):
-		"""Convert a sequence of valid types into a single Vector.
+		"""Converts a sequence of valid types into a single Vector.
 		
 		Arguments
 		---------
-		args: A list, tuple, or set of items. Items must be any of lists, 
-		      tuples, sets, vectors, or numbers
+		args: A list, tuple, or set of items. Items may be numbers, or a valid sequence like lists, 
+		      tuples, sets, vectors, containing only numbers.
 		"""
 
 		new_components = []
@@ -1084,10 +1162,6 @@ class Vector():
 
 def isovector(component, dimension):
 	"""Create a homogenous Vector of a specified dimension.
-
-	Example
-	-------
-	isovector(2, 4) returns Vector(2.0 2.0 2.0 2.0)
 
 	Parameters
 	----------
