@@ -518,7 +518,6 @@ class Vector():
 		Arguments
 		----------
 		:other: a Vector
-
 		"""
 
 		if isinstance(other, Vector):
@@ -559,10 +558,9 @@ class Vector():
 	def ediv(self, other):
 		"""Performs element-wise division on two vectors.
 		
-		Aurguments
+		Arguments
 		----------
 		:other: a Vector
-		
 		"""
 		
 		# check if vectors have equal dimensions
@@ -578,8 +576,9 @@ class Vector():
 	def emul(self, other):
 		"""Performs element-wise multiplication on two vectors
 		
-		
-		
+		Arguments
+		----------
+		:other: a Vector		
 		"""
 		
 		# check if vectors have equal dimensions
@@ -832,7 +831,7 @@ class Vector():
 		"""Passes a vector through the Parametric Rectified Linear Unit Function.
 		
 		Arguments
-		----------
+		---------
 		:scalefactor: scaling factor for negative components a vector
 		"""
 
@@ -841,11 +840,10 @@ class Vector():
 	def pop(self, index=None):
 		"""Deletes a component.
 
-		Parameters
+		Arguments
 		----------
-		index : Index of component to be deleted.
-				Defaults to the index of the last component.
-
+		:index: Index of component to be deleted.
+			Defaults to the index of the last component.
 		"""
 
 		if  (type(index)==int and index >= 0) or index==None:
@@ -885,7 +883,6 @@ class Vector():
 		
 		coef - a value to be used for changing between standard relu(0), 
 		       leaky relu(0.01), and parametric relu.
-		
 		"""
 
 		relu = lambda y: max(coef * y, y)
@@ -925,7 +922,7 @@ class Vector():
 		return 1 - (self.leastsq(other)/sum_sq_mean_diff)
 
 	def reverse(self):
-		"""Sets a Vector in the opposite direction."""
+		"""Sets a Vector in the opposite direction"""
 
 		self.components = self.reversed().components
 
@@ -941,10 +938,9 @@ class Vector():
 	def sdiv(self, scalar):
 		"""Returns a Vector, which is the result of a scalar division.
 
-		Parameters
-		----------
-		scalar: a number of int or float type to divide the vector.
-		
+		Arguments
+		---------
+		:scalar: a number of int or float type to divide the vector.
 		"""
 
 		if type(scalar) in (int, float):
@@ -957,7 +953,7 @@ class Vector():
 			)
 
 	def shuffle(self):
-		"""Shuffles the components of this Vector in-place."""
+		"""Shuffles the components of this Vector in-place"""
 
 		random.shuffle(self.components)
 
@@ -980,8 +976,8 @@ class Vector():
 	def smul(self, multiplier):
 		"""Returns the product of a scalar multiplication.
 
-		Parameters
-		----------
+		Arguments
+		---------
 		:multiplier: a number (of int or float type) to multiply through components of a Vector
 		"""
 
@@ -1045,9 +1041,9 @@ class Vector():
 	def subtract(self, other):
 		"""Performs Vector subtraction.
 
-		Parameters
+		Arguments
 		----------
-		other : a Vector
+		:other: a Vector
 		"""
 
 		return self.__sub__(other)
@@ -1056,11 +1052,11 @@ class Vector():
 	def subvec(self, start, end):
 		"""Creates a new Vector from a sequence of components from another Vector.
 
-		Parameters
-		----------
-		:start : the beggining index of the selected sub-sequence
+		Arguments
+		---------
+		:start: the beggining index of the selected sub-sequence
 
-		:end : the ending index of the selected sub-sequence
+		:end: the ending index of the selected sub-sequence
 		"""
 
 		return Vector(self.components[start:end])
@@ -1141,7 +1137,7 @@ class Vector():
 		
 		Arguments
 		---------
-		args: a list, tuple, or set of Vectors
+		:args: a list, tuple, or set of Vectors
 		"""
 
 		vecsum = args[0]
@@ -1152,7 +1148,7 @@ class Vector():
 				vecsum = vecsum.add(arg)
 			else:
 				raise TypeError(
-					"Arguments must be any of lists, tuples, sets, vectors, or numbers"
+					"Arguments must be either of list, tuple, set of vectors"
 				)
 		
 		return vecsum
@@ -1163,12 +1159,11 @@ class Vector():
 def isovector(component, dimension):
 	"""Create a homogenous Vector of a specified dimension.
 
-	Parameters
-	----------
-	component : The desired component.
+	Arguments
+	---------
+	:component: The desired component.
 
-	dimension : The desired dimensions of the Vector to be created.
-
+	:dimension: The desired dimensions of the Vector to be created.
 	"""
 
 	if type(component) in (int, float):
@@ -1192,13 +1187,11 @@ def isovector(component, dimension):
 def randvec(dimensions, seed=None):
 	"""Generates a random Vector.
 	
-	Parameters:
-	-----------
-	
-	dimensions : the number of components of the resultant vector.
+	Arguments
+	---------
+	:dimensions: the number of components of the resultant Vector.
 
-	seed : a seed value for generation of numbers. Default is None.
-	
+	:seed: a seed value for generation of numbers. Default is None.
 	"""
 	
 	if seed==None:
