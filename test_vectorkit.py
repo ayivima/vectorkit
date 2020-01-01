@@ -2,6 +2,7 @@
 """Tests for Vectorkit"""
 
 from math import sqrt, floor
+import random
 import sys
 import unittest
 
@@ -208,15 +209,15 @@ class VectorToolsTester(unittest.TestCase):
 		self.assertFalse(Vector(1,2,4)==Vector(1,3,4))
 		self.assertFalse(Vector(1,-3,4)==Vector(1,3,4))
 
-	def test_extension(self):
+	def test_padding(self):
 		# Test in-place extension using .extend() with default 
 		# extension component.
 		# Additional test that vector 'a' is changed by in-place extension
 		a = Vector(1, 2)
 		a.pad(4)
-		expected_extended_a = Vector(1,2,0,0)
+		expected_padded_a = Vector(1,2,0,0)
 
-		self.assertEqual(expected_extended_a, a) 
+		self.assertEqual(expected_padded_a, a)
 		self.assertFalse(Vector(1,2)==a)
 
 		# Test in-place extension with custom extension component
@@ -295,7 +296,7 @@ class VectorToolsTester(unittest.TestCase):
 		b = Vector(1,2)
 		expected_return_from_a_dress_b = ([1,1,1,1],[1,2,0,0])
 
-		self.assertEqual(expected_return_from_a_dress_b, a.__dress__(b))
+		self.assertEqual(expected_return_from_a_dress_b, a._dress_(b))
 
 	def test_vector_reversal(self):
 		# Reversal sets a Vector in opposite direction.
@@ -350,7 +351,7 @@ class VectorToolsTester(unittest.TestCase):
 			a.dimensions,
 			a.min,
 			a.max,
-			a.sum
+			a.sum,
 		)
 		for x in props:
 			tsize += sys.getsizeof(x)
@@ -447,8 +448,13 @@ class VectorToolsTester(unittest.TestCase):
 		self.assertEqual(expected_power, power)
 
 	def test_randvec(self):
-		a = randvec(5, 2)
-		expected_a = Vector(-5.0, -4.0, 3.0, -3.0, 2.0)
+		seed = 2
+		dimensions = 5
+		a = randvec(dimensions, seed)
+		random.seed(seed)
+		expected_a = Vector(
+			[random.random()*2-1 for i in range(dimensions)]
+		)
 
 		self.assertEqual(5, a.dimensions)
 		self.assertEqual(expected_a, a)
@@ -738,3 +744,4 @@ class VectorToolsTester(unittest.TestCase):
 
 if __name__ == "VectorkitTester":
 	unittest.main(verbosity=2)
+	
