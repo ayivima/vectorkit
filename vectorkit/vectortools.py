@@ -665,6 +665,18 @@ class Vector():
 		
 		return sum_diffs
 
+
+	def mae(self, other):
+		"""Returns the Mean Absolute Error between two vectors.
+		
+		Arguments
+		---------
+		:other: a Vector
+		"""
+		
+		diffs = self._errdiff_(other, absolute=True)
+		return sum(diffs)/self.dimensions
+
 	def magnitude(self):
 		"""Returns the magnitude of a Vector"""
 
@@ -673,6 +685,17 @@ class Vector():
 			sum_sq_mul += pow(x, 2)
 
 		return sqrt(sum_sq_mul)
+
+	def mbe(self, other):
+		"""Returns the Mean Bias Error between two vectors.
+		
+		Arguments
+		---------
+		:other: a Vector
+		"""
+		
+		diffs = self._errdiff_(other)
+		return sum(diffs)/self.dimensions
 
 	def mean(self):
 		"""Returns the mean of the components of a Vector"""
@@ -714,28 +737,6 @@ class Vector():
 			(X - mean)/(self.max[0] - self.min[0]) for X in self.components
 		])
 
-	def mae(self, other):
-		"""Returns the Mean Absolute Error between two vectors.
-		
-		Arguments
-		---------
-		:other: a Vector
-		"""
-		
-		diffs = self._errdiff_(other, absolute=True)
-		return sum(diffs)/self.dimensions
-		
-	def mbe(self, other):
-		"""Returns the Mean Bias Error between two vectors.
-		
-		Arguments
-		---------
-		:other: a Vector
-		"""
-		
-		diffs = self._errdiff_(other)
-		return sum(diffs)/self.dimensions
-		
 	def mse(self, other):
 		"""Returns the Mean Square Error between two vectors.
 		
@@ -929,8 +930,8 @@ class Vector():
 	def sdiv(self, scalar):
 		"""Returns a Vector, which is the result of a scalar division.
 
-		Arguments
-		---------
+		Argument
+		----------
 		:scalar: a number of int or float type to divide the vector.
 		
 		"""
@@ -1193,9 +1194,7 @@ def randvec(dimensions, seed=None):
 		random.seed(seed)
 	
 	return Vector(
-		random.sample(
-			range(-dimensions, dimensions), dimensions
-		)
+		[random.random()*2-1 for i in range(dimensions)]
 	)
 
 def main():
