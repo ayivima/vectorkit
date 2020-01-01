@@ -1125,6 +1125,20 @@ class Vector():
 		return Vector(new_components)
 	
 	@staticmethod
+	def random(dimensions=2, seed=None):
+		"""Generates a random Vector.
+		
+		Arguments
+		---------
+		:dimensions: the number of components of the resultant vector.
+		             Default is 2.
+
+		:seed: a seed value for generation of numbers. Default is None.
+		"""
+
+		return randvec(dimensions, seed)
+
+	@staticmethod
 	def sum(args):
 		"""Add multiple Vectors.
 		
@@ -1145,9 +1159,6 @@ class Vector():
 				)
 		
 		return vecsum
-				
-				
-		 
 
 def isovector(component, dimension):
 	"""Create a homogenous Vector of a specified dimension.
@@ -1178,7 +1189,7 @@ def isovector(component, dimension):
 			"first argument <number> must be a number"
 		)
 
-def randvec(dimensions, seed=None):
+def randvec(dimensions=2, seed=None):
 	"""Generates a random Vector.
 	
 	Arguments
