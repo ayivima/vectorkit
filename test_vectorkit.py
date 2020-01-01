@@ -449,16 +449,30 @@ class VectorToolsTester(unittest.TestCase):
 
 	def test_randvec(self):
 		seed = 2
-		dimensions = 5
-		a = randvec(dimensions, seed)
+		dimensions = 2
 		random.seed(seed)
+
+		a = randvec(dimensions, seed)
 		expected_a = Vector(
 			[random.random()*2-1 for i in range(dimensions)]
 		)
 
-		self.assertEqual(5, a.dimensions)
-		self.assertEqual(expected_a, a)
-	
+		self.assertEqual(2, a.dimensions)
+		self.assertTrue(isinstance(a, Vector))
+
+	def test_random_vector(self):
+		seed = 3
+		dimensions = 2
+		random.seed(seed)
+
+		a = Vector.random(dimensions, seed)
+		expected_a = Vector(
+			[random.random()*2-1 for i in range(dimensions)]
+		)
+
+		self.assertEqual(2, a.dimensions)
+		self.assertTrue(isinstance(a, Vector))
+
 	def test_rmse(self):
 		a = Vector(1, 2, 3)
 		b = Vector(2, 2, 3)
