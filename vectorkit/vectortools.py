@@ -109,6 +109,11 @@ class Vector():
 
 	def __hash__(self):
 		return hash(self.components)
+	
+	def __iter__(self):
+		"""Returns a iterator which iterates over vector components."""
+
+		return iter(self.components)
 
 	def __len__(self):
 		return self.dimensions
