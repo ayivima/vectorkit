@@ -167,12 +167,25 @@ class VectorToolsTester(unittest.TestCase):
 		self.assertEqual(expected_x_dimensions, x.dimensions)
 		self.assertEqual(expected_z_dimensions, z.dimensions)
 
-	def test_distance(self):
+	def test_distance_euclidean(self):
 		x = Vector(1,2)
 		y = Vector(2,1)
 
 		expected_distance_x_y = sqrt(2)
-		self.assertEqual(expected_distance_x_y, x.distance(y))
+		self.assertEqual(
+			expected_distance_x_y,
+			x.distance(y, algorithm="euclidean")
+		)
+	
+	def test_distance_manhattan(self):
+		x = Vector(1,2)
+		y = Vector(2,1)
+
+		expected_distance_x_y = 2
+		self.assertEqual(
+			expected_distance_x_y,
+			x.distance(y, algorithm="manhattan")
+		)
 
 	def test_dot_product(self):
 		x = Vector(1,2)
@@ -758,4 +771,3 @@ class VectorToolsTester(unittest.TestCase):
 
 if __name__ == "VectorkitTester":
 	unittest.main(verbosity=2)
-	
