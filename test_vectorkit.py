@@ -261,6 +261,20 @@ class VectorToolsTester(unittest.TestCase):
 		
 		self.assertEqual(expected_y, y)
 	
+	def test_iterator(self):
+		lst = [1, 2, 3, 4]
+		a = Vector(lst)
+		
+		expected_iter_a = iter(lst)
+		iter_a = iter(a)
+		
+		self.assertTrue(type(iter_a), "<class 'list_iterator'>")
+		
+		for i in range(len(lst)):
+			self.assertEqual(
+				next(expected_iter_a), next(iter_a)
+			)
+
 	def test_jaccard(self):
 		a = Vector(1, 2, 3, 4)
 		b = Vector(1, 2, 4, 4)
