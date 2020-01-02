@@ -234,7 +234,8 @@ class Vector():
 		return len(self.components)
 
 	def _dress_(self, other, extension_component=0):
-		"""Compares Vectors and pads the Vector with lowest number of dimensions with a given component.
+		"""Compares Vectors and pads the Vector with lowest 
+		number of dimensions with a given component.
 
 		Arguments
 		---------
@@ -512,27 +513,51 @@ class Vector():
 		
 		return self._describe_()
 
-	def distance(self, other):
+	def distance(self, other, algorithm="euclidean"):
 		"""Returns the euclidean distance between two Vectors.
 
 		Arguments
 		----------
 		:other: a Vector
 		"""
+		
+		if algorithm.lower() == "euclidean":
+		
+			if isinstance(other, Vector):
+				a, b = self._dress_(other)
+				
+				sum_sq_diff = 0
+				
+				for x, y in zip(a, b):
+					sum_sq_diff += pow((x - y), 2)
 
-		if isinstance(other, Vector):
-			a, b = self._dress_(other)
-			
-			sum_sq_diff = 0
-			
-			for x, y in zip(a, b):
-				sum_sq_diff += pow((x - y), 2)
+				return sqrt(sum_sq_diff)
+			else:
+				raise TypeError(
+					"distance() requires <Vectors> types"
+				)
+		
+		elif algorithm.lower() in (
+			"manhattan",
+			"rectilinear",
+			"taxicab",
+			"minkowski",
+			"cityblock"
+		):
 
-			return sqrt(sum_sq_diff)
-		else:
-			raise TypeError(
-				"distance() requires <Vectors> types"
-			)
+			if isinstance(other, Vector):
+				a, b = self._dress_(other)
+				
+				sum_diff = 0
+				
+				for x, y in zip(a, b):
+					sum_diff += abs(x - y)
+
+				return sum_diff
+			else:
+				raise TypeError(
+					"distance() requires <Vector> types"
+				)
 
 	def dotmul(self, other):
 		"""Returns the dot product of two vectors.
