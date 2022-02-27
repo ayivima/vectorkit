@@ -1,7 +1,7 @@
 VECTOR KIT
 ==========
 
-Vectorkit is part of a series of python implementations of mathematical concepts of AI from the scratch. It is a pet project. Even though it gets packaged to pypi, it is a work in progress, will undergo a lot of changes, and not (conciously) optimized for large scale computation. You can play with its javascript counterpart in the browser at https://vectorkitweb.netlify.com/. Note that vectorkit web has just began and is no where near perfect :).
+Vectorkit is part of a series of python implementations of mathematical concepts of AI from the scratch. It is a pet project. Even though it gets packaged to pypi, it is a work in progress, will undergo a lot of changes, and not (conciously) optimized for large scale computation. You can play with its javascript counterpart in the browser at https://vectorkitweb.netlify.com/.
 
 .. image:: https://raw.githubusercontent.com/ayivima/vectorkit/master/img/shell_img.png
 
